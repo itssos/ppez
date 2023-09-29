@@ -1,0 +1,8 @@
+# Denegar el acceso a esta carpeta desde la URL
+Options -Indexes
+
+# Redirigir a la página de inicio en caso de error 403
+ErrorDocument 403 /ppez/index.php
+
+# Redirigir a la página de inicio en caso de error 404
+ErrorDocument 404 /ppez/index.php
