@@ -15,7 +15,8 @@
 
         /* Estilo para resaltar las celdas de la tabla */
         .table tbody tr:hover {
-            background-color: #f5f5f5; /* Color de fondo al pasar el ratón por encima */
+            background-color: #f5f5f5;
+            /* Color de fondo al pasar el ratón por encima */
         }
     </style>
 </head>
@@ -56,7 +57,7 @@
                         <td><?php echo $resultado['imagen'] ?></td>
                         <td>
                             <a href="../Formularios/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
-                            <a href="" class="btn btn-danger">ELIMINAR</a>
+                            <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
                         </td>
                     </tr>
                 <?php

@@ -11,21 +11,56 @@
 <body>
     <h1 class="bg-black p-2 text-white text-center">Agregar Plato</h1>
     <div class="container">
-        <form>
+        <br>
+        <form action="../CRUD/editarDatos.php" method="post">
+            <?php
+            include("../Config/conexion.php");
+            $sql = "SELECT *FROM plato WHERE idplato=" . $_GET['Id'];
+            $resultado = $conexion->query($sql);
+            $row = $resultado->fetch_assoc();
+            ?>
+
+<input type="Hidden" class="form-control rounded" name="ID" value="<?php echo $row['idplato'] ?>">
+
+            <!--TRAER DATO-->
+            <label for="">Tipo de Menú</label>
+            <select class="form-select" aria-label="Default select example" name="Menú">
+                <option selected disabled>Seleccione</option>
+                <?php
+                include("../Config/conexion.php");
+                $sql1 = "SELECT *FROM menú WHERE idmenú=" . $row['menú_idmenú'];
+                $resultado1 = $conexion->query($sql1);
+                $row1 = $resultado1->fetch_assoc();
+                echo "<option selected value='" . $row1['idmenú'] . "'>" . $row1['nombreMenú'] . "</option>";
+
+                $sql2 = "SELECT *FROM menú";
+                $resultado2 = $conexion->query($sql2);
+                while ($fila = $resultado2->fetch_array()) {
+                    echo "<option value='" . $fila['idmenú'] . "'>" . $fila['nombreMenú'] . "</option>";
+                }
+                ?>
+
+            </select>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <label class="form-label">Nombre del plato</label>
+                <input type="text" class="form-control rounded" name="Nombre" value="<?php echo $row['nombre'] ?>">
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <label class="form-label">Descripción</label>
+                <input type="text" class="form-control rounded" name="Descripcion" value="<?php echo $row['descripción'] ?>">
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <input type="text" class="form-control rounded" name="Precio" value="<?php echo $row['precio'] ?>">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="mb-3">
+                <label class="form-label">Foto del plato</label>
+                <input type="text" class="form-control rounded" name="Foto" value="<?php echo $row['imagen'] ?>">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger">EDITAR</button>
+                <a href="../view/index.php" class="btn btn-dark">VOLVER</a>
+            </div>
         </form>
     </div>
 
