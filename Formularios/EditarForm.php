@@ -54,7 +54,7 @@
                 <input type="text" class="form-control rounded" name="Precio" value="<?php echo $row['precio'] ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Foto del plato</label>
+                <label class="form-label">Enlace de la imagen</label>
                 <input type="text" class="form-control rounded" name="Foto" value="<?php echo $row['imagen'] ?>">
             </div>
             <div class="text-center">

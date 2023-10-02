@@ -28,6 +28,11 @@
     </div>
     <br>
     <div class="container">
+        <a href="../Formularios/AgregarForm.php" class="btn btn-success">Agregar Plato</a>
+    </div>
+    <br>
+
+    <div class="container">
         <table class="table">
             <thead>
                 <tr>
@@ -54,8 +59,10 @@
                         <td><?php echo $resultado['nombreMenú'] ?></td>
                         <td><?php echo $resultado['precio'] ?></td>
                         <td><?php echo $resultado['descripción'] ?></td>
-                        <td><?php echo $resultado['imagen'] ?></td>
                         <td>
+                            <img src="<?php echo $resultado['imagen']; ?>" alt="Imagen del Plato" style="max-height: 100px;">
+                        </td>
+                        <td class="text-center align-middle">
                             <a href="../Formularios/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
                             <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
                         </td>
@@ -65,9 +72,7 @@
                 ?>
             </tbody>
         </table>
-        <div class="container">
-            <a href="../Formularios/AgregarForm.php" class="btn btn-success">Agregar Plato</a>
-        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
