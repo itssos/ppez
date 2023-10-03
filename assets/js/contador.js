@@ -4,8 +4,6 @@ function agregarCantidad(button) {
     cantidad++;
     cantidadElement.textContent = cantidad;
 }
-
-// Función para restar cantidad
 function restarCantidad(button) {
     const cantidadElement = button.previousElementSibling;
     let cantidad = parseInt(cantidadElement.textContent);

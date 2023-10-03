@@ -23,9 +23,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
                     <!--TABLA DE MENÚ-->
-
                     <table class="table">
                         <thead>
                             <tr>
@@ -60,8 +58,6 @@
                             ?>
                         </tbody>
                     </table>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -70,6 +66,21 @@
             </div>
         </div>
     </div>
+    <table class="table Tabla-Pedidos">
+        <thead>
+            <tr>
+                <th>Plato</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Precio Total del Plato</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se agregarán las filas de detalles del pedido -->
+        </tbody>
+    </table>
+    <p>Monto Total: <span id="montoTotal">0</span></p>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="../assets/js/contador.js"></script>
