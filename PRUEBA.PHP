@@ -89,6 +89,7 @@
                         echo "<br>";
                         $idPedidoGenerado = $conexion->insert_id;
                         echo "<br>";
+                        $_SESSION['idPedido'] = $idPedidoGenerado;
                         echo "Pedido insertado correctamente en la base de datos. ID del pedido: $idPedidoGenerado";
                     } else {
                         echo "<br>";
@@ -146,8 +147,7 @@
                                         <input type="hidden" name="imagen" value="<?php echo $resultado['imagen']; ?>">
                                         <input type="hidden" name="nombre" value="<?php echo $resultado['nombre'] ?>; ?>">
                                         <input type="hidden" name="precio" value="<?php echo $resultado['precio'] ?>; ?>">
-                                        <input type="number" name="cantidad" value="0" class="form-control">
-                                        <!-- Cambia el id a una clase para el botón "Agregar a la Orden" -->
+                                        <input type="number" name="cantidad" value="0" class="form-control cantidad-input">
                                         <button type="button" class="btn btn-success agregar-plato-btn">Agregar</button>
                                     </td>
                                 </tr>
@@ -207,14 +207,48 @@
 
     <!-- Script JavaScript para habilitar/deshabilitar el botón -->
     <script>
-        document.getElementById('mesa').addEventListener('change', function() {
-            var agregarPedidoBtn = document.getElementById('agregarPedidoBtn');
-            if (this.value !== '0') {
-                agregarPedidoBtn.removeAttribute('disabled');
-            } else {
-                agregarPedidoBtn.setAttribute('disabled', 'true');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script para habilitar/deshabilitar el botón "Agregar Pedido" cuando se selecciona una mesa
+            document.getElementById('mesa').addEventListener('change', function() {
+                var agregarPedidoBtn = document.getElementById('agregarPedidoBtn');
+                if (this.value !== '0') {
+                    agregarPedidoBtn.removeAttribute('disabled');
+                } else {
+                    agregarPedidoBtn.setAttribute('disabled', 'true');
+                }
+            });
+
+            // Script para manejar el evento clic en el botón "Agregar" dentro de la modal
+            var agregarPlatoBtns = document.querySelectorAll('.agregar-plato-btn');
+
+            agregarPlatoBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var tr = btn.closest('tr'); // Obtiene la fila del plato
+                    var idPlato = tr.getAttribute('data-idplato'); // Obtiene el ID del plato desde el atributo de datos personalizado
+                    var cantidad = parseInt(tr.querySelector('.cantidad-input').value); // Obtiene la cantidad ingresada por el usuario
+
+                    if (!isNaN(cantidad) && cantidad > 0) {
+                        // Realiza una solicitud AJAX al servidor para insertar los datos en la tabla detalle_pedido
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "../ppez/CRUD/guardar_pedido.php", true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                // Maneja la respuesta del servidor (puede ser un mensaje de éxito o error)
+                                console.log(xhr.responseText);
+                            }
+                        };
+
+                        var data = 'idPlato=' + encodeURIComponent(idPlato) +
+                            '&cantidad=' + encodeURIComponent(cantidad);
+
+                        xhr.send(data);
+                    } else {
+                        alert('Ingresa una cantidad válida mayor que cero.');
+                    }
+                });
+            });
+        });;
     </script>
 </body>
 
