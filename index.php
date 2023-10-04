@@ -80,11 +80,11 @@
                     echo "$idMesaSeleccionada";
                     echo "<br>";
                     echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Agregar Pedido</button>";
-            
+
                     // Insertar un nuevo registro en la tabla "pedidos"
                     $fechaActual = date("Y-m-d H:i:s"); // Obtener la fecha actual en formato datetime
                     $sqlInsertarPedido = "INSERT INTO pedidos (mozos_id_mozos, fecha, mesa_idmesa) VALUES ('$idMozo', '$fechaActual', '$idMesaSeleccionada')";
-            
+
                     if ($conexion->query($sqlInsertarPedido) === TRUE) {
                         echo "<br>";
                         $idPedidoGenerado = $conexion->insert_id;
@@ -93,12 +93,11 @@
                     } else {
                         echo "<br>";
                         echo "Error al insertar el pedido en la base de datos: " . $conexion->error;
-                    } 
+                    }
                 } else {
                     echo "Error al actualizar el estado de la mesa: " . $conexion->error;
                 }
-            }
-             else {
+            } else {
                 // La mesa está ocupada, muestra un mensaje
                 echo "Lo sentimos, esta mesa está ocupada en este momento.";
             }
@@ -111,13 +110,12 @@
     }
     ?>
 
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">MENÚ</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -150,7 +148,7 @@
                                         <input type="hidden" name="precio" value="<?php echo $resultado['precio'] ?>; ?>">
                                         <input type="number" name="cantidad" value="0" class="form-control">
                                         <!-- Cambia el id a una clase para el botón "Agregar a la Orden" -->
-                                        <button type="button" class="btn btn-success agregar-plato-btn">Agregar a la Orden</button>
+                                        <button type="button" class="btn btn-success agregar-plato-btn">Agregar</button>
                                     </td>
                                 </tr>
 
@@ -167,6 +165,43 @@
             </div>
         </div>
     </div>
+
+    <!-- TABLA DE PEDIDOS -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nomb</th>
+                <th scope="col">Cant</th>
+                <th scope="col">P.U</th>
+                <th scope="col">P.T</th>
+                <th scope="col">Act</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            require("../ppez/Config/conexion.php");
+            $sql11 = $conexion->query("SELECT dp.*, p.nombre AS nombre_plato, p.precio AS precio_plato 
+            FROM detalle_pedido AS dp
+            INNER JOIN plato AS p ON dp.plato_idplato = p.idplato");
+
+            while ($resultado11 = $sql11->fetch_assoc()) {
+            ?>
+                <tr>
+                    <td><?php echo $resultado11['nombre_plato'] ?></td>
+                    <td><?php echo $resultado11['cantidad'] ?></td>
+                    <td><?php echo $resultado11['precio_plato'] ?></td>
+                    <td><?php echo $resultado11['cantidad'] * $resultado11['precio_plato'] ?></td> <!-- Precio Total -->
+                    <td class="text-center align-middle">
+                        <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado11['id_detalle'] ?>" class="btn btn-danger">X</a>
+                    </td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
+    </table>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
     <!-- Script JavaScript para habilitar/deshabilitar el botón -->
