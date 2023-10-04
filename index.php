@@ -9,9 +9,6 @@
 </head>
 
 <body>
-
-
-
     <div class="container_MOZO">
         <h1>Bienvenido al sistema</h1>
         <?php
@@ -36,12 +33,11 @@
         <a href="model/logout.php">Cerrar Sesión</a>
     </div>
 
-
     <div>
         <h1>Seleccionar Mesa</h1>
         <label for="mesa">Seleccione una mesa:</label>
         <select name="mesa" id="mesa">
-            <option value="" selected disabled>-- Seleccionar --</option>
+            <option value="0" selected disabled>-- Seleccionar --</option>
             <?php
             // Incluir el archivo de conexión
             include('../ppez/model/conexionBD.php');
@@ -59,10 +55,8 @@
             // Cerrar la conexión a la base de datos (no es necesario aquí, se cerrará cuando se cierre el archivo)
             ?>
         </select>
-        <!-- Botón "ADD +" que estará habilitado en todo momento -->
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar Pedido</button>
-
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="abrirModalBtn" disabled>Agregar Pedido</button>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -120,9 +114,19 @@
         </div>
     </div>
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <!-- Script JavaScript para habilitar/deshabilitar el botón -->
+    <script>
+        document.getElementById('mesa').addEventListener('change', function() {
+            var abrirModalBtn = document.getElementById('abrirModalBtn');
+            if (this.value !== '0') {
+                abrirModalBtn.removeAttribute('disabled');
+            } else {
+                abrirModalBtn.setAttribute('disabled', 'true');
+            }
+        });
+    </script>
 </body>
 
 </html>
