@@ -56,7 +56,7 @@
                 // Cerrar la conexión a la base de datos (no es necesario aquí, se cerrará cuando se cierre el archivo)
                 ?>
             </select>
-            <button type="submit" class="btn btn-primary" id="agregarPedidoBtn" disabled>Agregar Pedido</button>
+            <button type="submit" class="btn btn-primary" id="agregarPedidoBtn" disabled>Aceptar</button>
         </form>
     </div>
     <?php
@@ -80,10 +80,25 @@
                     echo "$idMesaSeleccionada";
                     echo "<br>";
                     echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Agregar Pedido</button>";
+            
+                    // Insertar un nuevo registro en la tabla "pedidos"
+                    $fechaActual = date("Y-m-d H:i:s"); // Obtener la fecha actual en formato datetime
+                    $sqlInsertarPedido = "INSERT INTO pedidos (mozos_id_mozos, fecha, mesa_idmesa) VALUES ('$idMozo', '$fechaActual', '$idMesaSeleccionada')";
+            
+                    if ($conexion->query($sqlInsertarPedido) === TRUE) {
+                        echo "<br>";
+                        $idPedidoGenerado = $conexion->insert_id;
+                        echo "<br>";
+                        echo "Pedido insertado correctamente en la base de datos. ID del pedido: $idPedidoGenerado";
+                    } else {
+                        echo "<br>";
+                        echo "Error al insertar el pedido en la base de datos: " . $conexion->error;
+                    } 
                 } else {
                     echo "Error al actualizar el estado de la mesa: " . $conexion->error;
                 }
-            } else {
+            }
+             else {
                 // La mesa está ocupada, muestra un mensaje
                 echo "Lo sentimos, esta mesa está ocupada en este momento.";
             }
@@ -102,7 +117,7 @@
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
