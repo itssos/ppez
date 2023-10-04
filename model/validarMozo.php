@@ -7,7 +7,7 @@ $usuario = $_POST['usuario'];
 $contrasena = $_POST['pin'];
 
 // Preparar y ejecutar la consulta SQL para validar el usuario y la contraseña
-$sql = "SELECT * FROM mozos WHERE usuario = ? AND contrasena = ?";
+$sql = "SELECT * FROM mozos WHERE usuario = ? AND contraseña = ?";
 if ($stmt = $conexion->prepare($sql)) {
     $stmt->bind_param("ss", $usuario, $contrasena); // Ligamos los parámetros
     $stmt->execute(); // Ejecutamos la consulta
@@ -19,16 +19,19 @@ if ($stmt = $conexion->prepare($sql)) {
         session_start();
         $_SESSION['usuario'] = $usuario;
 
-        // Redirigir al usuario a index.php
+        // Obtener el ID del mozo y almacenarlo en una variable de sesión
+        $fila = $result->fetch_assoc();
+        $idMozo = $fila['id_mozos'];
+        $_SESSION['idMozo'] = $idMozo;
+
+        // Redirigir al usuario a index.php o la página deseada
         header("Location: ../index.php");
         exit; // Terminar el script
     } else {
         // El usuario y/o la contraseña son incorrectos
-        //echo "Usuario y/o contraseña incorrectos";
         // Redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
         header("Location: ../login.php?error=1");
         exit; // Terminar el script
-
     }
 
     $stmt->close(); // Cerramos la consulta preparada

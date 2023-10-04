@@ -40,10 +40,10 @@ if ($error === "1") {
                 <h2>Iniciar sesión </h2>
             </div>
             <?php if (!empty($errorMessage)) : ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?php echo $errorMessage; ?>
-                    </div>
-                <?php endif; ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $errorMessage; ?>
+                </div>
+            <?php endif; ?>
             <div>
                 <form action="model/validarMozo.php" method="POST" id="loginForm">
                     <div>
