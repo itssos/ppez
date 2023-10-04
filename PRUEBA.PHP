@@ -32,7 +32,6 @@
 
         <a href="model/logout.php">Cerrar Sesión</a>
     </div>
-
     <div>
         <h1>Seleccionar Mesa</h1>
         <label for="mesa">Seleccione una mesa:</label>
@@ -59,55 +58,72 @@
             <button type="submit" class="btn btn-primary" id="agregarPedidoBtn" disabled>Aceptar</button>
         </form>
     </div>
+
     <?php
+    // Inicializa la variable $idPedidoGenerado
+    $idPedidoGenerado = null;
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $idMesaSeleccionada = $_POST["mesa"];
-        include('../ppez/model/conexionBD.php');
+        if (isset($_POST["mesa"])) {
+            $idMesaSeleccionada = $_POST["mesa"];
+            include('../ppez/model/conexionBD.php');
 
-        // Consulta SQL para obtener el estado actual de la mesa seleccionada
-        $sql = "SELECT estado FROM mesa WHERE idmesa = $idMesaSeleccionada";
-        $result = $conexion->query($sql);
+            // Consulta SQL para obtener el estado actual de la mesa seleccionada
+            $sql = "SELECT estado FROM mesa WHERE idmesa = $idMesaSeleccionada";
+            $result = $conexion->query($sql);
 
-        if ($result->num_rows > 0) {
-            // Obtener el estado actual de la mesa
-            $fila = $result->fetch_assoc();
-            $estadoMesa = $fila["estado"];
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    // Obtener el estado actual de la mesa
+                    $fila = $result->fetch_assoc();
+                    $estadoMesa = $fila["estado"];
 
-            if ($estadoMesa == 0) {
-                // Actualizar el estado de la mesa a 1
-                $sqlActualizar = "UPDATE mesa SET estado = 1 WHERE idmesa = $idMesaSeleccionada";
-                if ($conexion->query($sqlActualizar) === TRUE) {
-                    echo "$idMesaSeleccionada";
-                    echo "<br>";
-                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Agregar Pedido</button>";
-
-                    // Insertar un nuevo registro en la tabla "pedidos"
-                    $fechaActual = date("Y-m-d H:i:s"); // Obtener la fecha actual en formato datetime
-                    $sqlInsertarPedido = "INSERT INTO pedidos (mozos_id_mozos, fecha, mesa_idmesa) VALUES ('$idMozo', '$fechaActual', '$idMesaSeleccionada')";
-
-                    if ($conexion->query($sqlInsertarPedido) === TRUE) {
-                        echo "<br>";
-                        $idPedidoGenerado = $conexion->insert_id;
-                        echo "<br>";
-                        $_SESSION['idPedido'] = $idPedidoGenerado;
-                        echo "Pedido insertado correctamente en la base de datos. ID del pedido: $idPedidoGenerado";
+                    if ($estadoMesa == 0) {
+                        // Actualizar el estado de la mesa a 1
+                        $sqlActualizar = "UPDATE mesa SET estado = 1 WHERE idmesa = $idMesaSeleccionada";
+                        if ($conexion->query($sqlActualizar) === TRUE) {
+                            echo "$idMesaSeleccionada";
+                            echo "<br>";
+                            $idPedidoGenerado = insertarNuevoPedido($conexion, $idMozo, $idMesaSeleccionada);
+                            echo "<br>";
+                            echo "Pedido insertado correctamente en la base de datos. ID del pedido: $idPedidoGenerado";
+                        } else {
+                            echo "Error al actualizar el estado de la mesa: " . $conexion->error;
+                        }
                     } else {
-                        echo "<br>";
-                        echo "Error al insertar el pedido en la base de datos: " . $conexion->error;
+                        // La mesa está ocupada, muestra un mensaje
+                        echo "Lo sentimos, esta mesa está ocupada en este momento.";
                     }
                 } else {
-                    echo "Error al actualizar el estado de la mesa: " . $conexion->error;
+                    echo "Mesa no encontrada en la base de datos.";
                 }
             } else {
-                // La mesa está ocupada, muestra un mensaje
-                echo "Lo sentimos, esta mesa está ocupada en este momento.";
+                echo "Error en la consulta SQL: " . $conexion->error;
             }
-        } else {
-            echo "Mesa no encontrada en la base de datos.";
-        }
 
-        // Cierra la conexión a la base de datos
-        $conexion->close();
+            // Cierra la conexión a la base de datos
+            $conexion->close();
+        }
+    }
+
+    // Función para insertar un nuevo pedido y obtener su ID
+    function insertarNuevoPedido($conexion, $idMozo, $idMesaSeleccionada)
+    {
+        $fechaActual = date("Y-m-d H:i:s"); // Obtener la fecha actual en formato datetime
+        $sqlInsertarPedido = "INSERT INTO pedidos (mozos_id_mozos, fecha, mesa_idmesa) VALUES ('$idMozo', '$fechaActual', '$idMesaSeleccionada')";
+
+        if ($conexion->query($sqlInsertarPedido) === TRUE) {
+            return $conexion->insert_id;
+        } else {
+            echo "Error al insertar el pedido en la base de datos: " . $conexion->error;
+            return null;
+        }
+    }
+    ?>
+    <?php
+    // Verificar si se generó un pedido
+    if (!is_null($idPedidoGenerado)) {
+        echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Agregar Pedido</button>";
     }
     ?>
 
@@ -129,6 +145,7 @@
                                 <th scope="col">Cant</th>
                             </tr>
                         </thead>
+                        <!-- Dentro de tu modal -->
                         <tbody>
                             <?php
                             require("../ppez/Config/conexion.php");
@@ -144,18 +161,24 @@
                                         <p>Costo: s/<?php echo $resultado['precio'] ?></p>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <input type="hidden" name="imagen" value="<?php echo $resultado['imagen']; ?>">
-                                        <input type="hidden" name="nombre" value="<?php echo $resultado['nombre'] ?>; ?>">
-                                        <input type="hidden" name="precio" value="<?php echo $resultado['precio'] ?>; ?>">
-                                        <input type="number" name="cantidad" value="0" class="form-control cantidad-input">
-                                        <button type="button" class="btn btn-success agregar-plato-btn">Agregar</button>
+                                        <!-- Agrega el formulario para cada plato -->
+                                        <form method="post">
+                                            <!-- Campo oculto para el idPlato -->
+                                            <input type="hidden" name="idPlato" value="<?php echo $resultado['idplato']; ?>">
+                                            <!-- Campo oculto para el idPedido -->
+                                            <input type="hidden" name="idPedido" value="<?php echo $idPedidoGenerado; ?>">
+                                            <!-- Campo de entrada para la cantidad -->
+                                            <input type="number" name="cantidad" value="1" class="form-control">
+                                            <!-- Botón "Agregar" para enviar el formulario -->
+                                            <button type="submit" class="btn btn-success">Agregar</button>
+                                        </form>
                                     </td>
                                 </tr>
-
                             <?php
                             }
                             ?>
                         </tbody>
+
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -166,7 +189,42 @@
         </div>
     </div>
 
+
+
     <!-- TABLA DE PEDIDOS -->
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Verificar si se enviaron las variables necesarias
+        if (isset($_POST["idPlato"]) && isset($_POST["idPedido"]) && isset($_POST["cantidad"])) {
+            // Obtener los datos del formulario
+            $idPlato = $_POST["idPlato"];
+            $idPedido = $_POST["idPedido"];
+            $cantidad = $_POST["cantidad"];
+
+            // Validar la cantidad
+            if (!is_numeric($idPlato) || !is_numeric($idPedido) || !is_numeric($cantidad) || $cantidad <= 0) {
+                echo "Error: Datos no válidos.";
+            } else {
+                // Insertar los datos en la tabla detalle_pedido
+                include('../ppez/model/conexionBD.php');
+
+                $sqlInsertar = "INSERT INTO detalle_pedido (plato_idplato, cantidad, pedidos_idpedidos) 
+                        VALUES ($idPlato, $cantidad, $idPedido)";
+
+                if ($conexion->query($sqlInsertar) === TRUE) {
+                    echo "Plato agregado al pedido correctamente.";
+                } else {
+                    echo "Error al agregar el plato al pedido: " . $conexion->error;
+                }
+
+                $conexion->close();
+            }
+        } else {
+            echo "INGRESE LOS DATOS";
+        }
+    }
+
+    ?>
     <table class="table">
         <thead>
             <tr>
@@ -207,48 +265,14 @@
 
     <!-- Script JavaScript para habilitar/deshabilitar el botón -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Script para habilitar/deshabilitar el botón "Agregar Pedido" cuando se selecciona una mesa
-            document.getElementById('mesa').addEventListener('change', function() {
-                var agregarPedidoBtn = document.getElementById('agregarPedidoBtn');
-                if (this.value !== '0') {
-                    agregarPedidoBtn.removeAttribute('disabled');
-                } else {
-                    agregarPedidoBtn.setAttribute('disabled', 'true');
-                }
-            });
-
-            // Script para manejar el evento clic en el botón "Agregar" dentro de la modal
-            var agregarPlatoBtns = document.querySelectorAll('.agregar-plato-btn');
-
-            agregarPlatoBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var tr = btn.closest('tr'); // Obtiene la fila del plato
-                    var idPlato = tr.getAttribute('data-idplato'); // Obtiene el ID del plato desde el atributo de datos personalizado
-                    var cantidad = parseInt(tr.querySelector('.cantidad-input').value); // Obtiene la cantidad ingresada por el usuario
-
-                    if (!isNaN(cantidad) && cantidad > 0) {
-                        // Realiza una solicitud AJAX al servidor para insertar los datos en la tabla detalle_pedido
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "../ppez/CRUD/guardar_pedido.php", true);
-                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                // Maneja la respuesta del servidor (puede ser un mensaje de éxito o error)
-                                console.log(xhr.responseText);
-                            }
-                        };
-
-                        var data = 'idPlato=' + encodeURIComponent(idPlato) +
-                            '&cantidad=' + encodeURIComponent(cantidad);
-
-                        xhr.send(data);
-                    } else {
-                        alert('Ingresa una cantidad válida mayor que cero.');
-                    }
-                });
-            });
-        });;
+        document.getElementById('mesa').addEventListener('change', function() {
+            var agregarPedidoBtn = document.getElementById('agregarPedidoBtn');
+            if (this.value !== '0') {
+                agregarPedidoBtn.removeAttribute('disabled');
+            } else {
+                agregarPedidoBtn.setAttribute('disabled', 'true');
+            }
+        });
     </script>
 </body>
 
