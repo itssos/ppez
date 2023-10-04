@@ -56,7 +56,7 @@
             ?>
         </select>
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="abrirModalBtn" disabled>Agregar Pedido</button>
+    <button type="button" class="btn btn-primary" id="agregarPedidoBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled>Agregar Pedido</button>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
