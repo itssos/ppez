@@ -36,31 +36,70 @@
     <div>
         <h1>Seleccionar Mesa</h1>
         <label for="mesa">Seleccione una mesa:</label>
-        <select name="mesa" id="mesa">
-            <option value="0" selected disabled>-- Seleccionar --</option>
-            <?php
-            // Incluir el archivo de conexión
-            include('../ppez/model/conexionBD.php');
+        <form method="post">
+            <select name="mesa" id="mesa">
+                <option value="0" selected disabled>-- Seleccionar --</option>
+                <?php
+                // Incluir el archivo de conexión
+                include('../ppez/model/conexionBD.php');
 
-            // Consulta SQL para obtener las mesas desde tu tabla de mesas
-            $sql = "SELECT idmesa, nombre FROM mesa";
-            $result = $conexion->query($sql);
+                // Consulta SQL para obtener las mesas desde tu tabla de mesas
+                $sql = "SELECT idmesa, nombre FROM mesa";
+                $result = $conexion->query($sql);
 
-            // Generar las opciones del select
-            while ($fila = $result->fetch_assoc()) {
-                $idMesa = $fila['idmesa'];
-                $nombreMesa = $fila['nombre'];
-                echo "<option value='$idMesa'>$nombreMesa</option>";
-            }
-            // Cerrar la conexión a la base de datos (no es necesario aquí, se cerrará cuando se cierre el archivo)
-            ?>
-        </select>
+                // Generar las opciones del select
+                while ($fila = $result->fetch_assoc()) {
+                    $idMesa = $fila['idmesa'];
+                    $nombreMesa = $fila['nombre'];
+                    echo "<option value='$idMesa'>$nombreMesa</option>";
+                }
+                // Cerrar la conexión a la base de datos (no es necesario aquí, se cerrará cuando se cierre el archivo)
+                ?>
+            </select>
+            <button type="submit" class="btn btn-primary" id="agregarPedidoBtn" disabled>Agregar Pedido</button>
+        </form>
     </div>
-    <button type="button" class="btn btn-primary" id="agregarPedidoBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled>Agregar Pedido</button>
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $idMesaSeleccionada = $_POST["mesa"];
+        include('../ppez/model/conexionBD.php');
+
+        // Consulta SQL para obtener el estado actual de la mesa seleccionada
+        $sql = "SELECT estado FROM mesa WHERE idmesa = $idMesaSeleccionada";
+        $result = $conexion->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Obtener el estado actual de la mesa
+            $fila = $result->fetch_assoc();
+            $estadoMesa = $fila["estado"];
+
+            if ($estadoMesa == 0) {
+                // Actualizar el estado de la mesa a 1
+                $sqlActualizar = "UPDATE mesa SET estado = 1 WHERE idmesa = $idMesaSeleccionada";
+                if ($conexion->query($sqlActualizar) === TRUE) {
+                    echo "$idMesaSeleccionada";
+                    echo "<br>";
+                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Agregar Pedido</button>";
+                } else {
+                    echo "Error al actualizar el estado de la mesa: " . $conexion->error;
+                }
+            } else {
+                // La mesa está ocupada, muestra un mensaje
+                echo "Lo sentimos, esta mesa está ocupada en este momento.";
+            }
+        } else {
+            echo "Mesa no encontrada en la base de datos.";
+        }
+
+        // Cierra la conexión a la base de datos
+        $conexion->close();
+    }
+    ?>
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable"> <!-- Agrega la clase modal-dialog-scrollable aquí -->
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido</h1>
@@ -113,20 +152,17 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
     <!-- Script JavaScript para habilitar/deshabilitar el botón -->
     <script>
         document.getElementById('mesa').addEventListener('change', function() {
-            var abrirModalBtn = document.getElementById('abrirModalBtn');
+            var agregarPedidoBtn = document.getElementById('agregarPedidoBtn');
             if (this.value !== '0') {
-                abrirModalBtn.removeAttribute('disabled');
+                agregarPedidoBtn.removeAttribute('disabled');
             } else {
-                abrirModalBtn.setAttribute('disabled', 'true');
+                agregarPedidoBtn.setAttribute('disabled', 'true');
             }
         });
     </script>
 </body>
-
-</html>
