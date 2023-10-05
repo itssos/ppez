@@ -16,9 +16,33 @@
                 async: false
             }).responseText;
             document.getElementById("miTabla").innerHTML = tabla;
+
+            var botonesEliminar = document.querySelectorAll(".eliminar-detalle");
+            botonesEliminar.forEach(function(boton) {
+                boton.addEventListener("click", function() {
+                    var idDetalle = boton.getAttribute("data-id-detalle");
+
+                    $.ajax({
+                        type: "POST",
+                        url: '../CRUD/eliminar_detalle_pedido.php',
+                        data: {
+                            id_detalle: idDetalle
+                        },
+                        success: function(response) {
+                            if (response === "success") {
+                                tiempoReal();
+                                alert("Detalle de pedido eliminado con éxito.");
+                            } else {
+                                alert("Error al eliminar el detalle de pedido: " + response);
+                            }
+                        }
+                    });
+                });
+            });
         }
         setInterval(tiempoReal, 500);
     </script>
+
 
 </head>
 

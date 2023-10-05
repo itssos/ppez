@@ -29,13 +29,11 @@ if (isset($_SESSION['pedidoIdCreado'])) {
                 <td>' . $resultado11['cantidad'] . '</td>
                 <td>' . $resultado11['precio_plato'] . '</td>
                 <td>' . $subtotal . '</td>
-                <td>
-                    <div class="barra" id="' . $resultado11['id_detalle'] . '">
-                        <a href="#" class="editar">
-                            <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
-                            Eliminar
-                        </a>
-                    </div>
+                <td class="text-center align-middle">
+                    <a href="#" class="eliminar-detalle" data-id-detalle="' . $resultado11['id_detalle'] . '">
+                        <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+                        Eliminar
+                    </a>
                 </td>
             </tr>';
     }
@@ -45,3 +43,4 @@ if (isset($_SESSION['pedidoIdCreado'])) {
 } else {
     echo "No se ha creado un pedido aún.";
 }
+?>
