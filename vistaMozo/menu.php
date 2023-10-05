@@ -7,6 +7,19 @@
     <title>Inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function tiempoReal() {
+            var tabla = $.ajax({
+                url: '../CRUD/tablaDetalle.php',
+                dataType: 'text',
+                async: false
+            }).responseText;
+            document.getElementById("miTabla").innerHTML = tabla;
+        }
+        setInterval(tiempoReal, 500);
+    </script>
+
 </head>
 
 <body>
@@ -114,40 +127,9 @@
     </div>
 
     <!-- TABLA DE PEDIDOS -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Nomb</th>
-                <th scope="col">Cant</th>
-                <th scope="col">P.U</th>
-                <th scope="col">P.T</th>
-                <th scope="col">Act</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            require("../Config/conexion.php");
-            $sql11 = $conexion->query("SELECT dp.*, p.nombre AS nombre_plato, p.precio AS precio_plato 
-            FROM detalle_pedido AS dp
-            INNER JOIN plato AS p ON dp.plato_idplato = p.idplato");
+    <section id="miTabla">
 
-            while ($resultado11 = $sql11->fetch_assoc()) {
-            ?>
-                <tr>
-                    <td><?php echo $resultado11['nombre_plato'] ?></td>
-                    <td><?php echo $resultado11['cantidad'] ?></td>
-                    <td><?php echo $resultado11['precio_plato'] ?></td>
-                    <td><?php echo $resultado11['cantidad'] * $resultado11['precio_plato'] ?></td> <!-- Precio Total -->
-                    <td class="text-center align-middle">
-                        <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado11['id_detalle'] ?>" class="btn btn-danger">X</a>
-                    </td>
-
-                </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </table>
+    </section>
 
 
 
