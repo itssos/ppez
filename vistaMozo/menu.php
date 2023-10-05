@@ -143,6 +143,8 @@
             const addButton = document.querySelector('button[data-bs-target="#exampleModal"]'); // Botón "ADD ++"
             const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
 
+            // Array para almacenar los IDs de los pedidos creados
+            const pedidosCreados = [];
 
             selectMesas.addEventListener("change", function() {
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
@@ -150,9 +152,6 @@
                 const mesaNombre = selectedOption.textContent;
                 resultadoDiv.innerHTML = `ID de la mesa seleccionada: ${mesaId} - Nombre: ${mesaNombre}`;
             });
-
-            // Variable para almacenar el ID del pedido creado
-            let pedidoIdCreado = null;
 
             agregarPedidoButton.addEventListener("click", function() {
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
@@ -168,7 +167,7 @@
                         if (respuesta.startsWith("success")) {
                             const pedidoId = respuesta.split(':')[1]; // Extrae el ID del pedido
                             alert("Pedido agregado con éxito");
-                            pedidoIdCreado = pedidoId; // Asigna el ID del pedido creado
+                            pedidosCreados.push(pedidoId); // Agrega el ID del pedido al array
                             cancelarPedidoButton.style.display = "block";
                             agregarPedidoButton.style.display = "none";
                             addButton.style.display = "block"; // Muestra el botón "ADD ++"
@@ -181,38 +180,43 @@
                 xhr.send(datos);
             });
 
-            // Cancelar un pedido
             cancelarPedidoButton.addEventListener("click", function() {
-                console.log("Botón Cancelar Pedido clickeado"); // Agrega esta línea para verificar el evento
-                if (pedidoIdCreado) {
-                    console.log("Pedido ID a cancelar:", pedidoIdCreado);
+                if (pedidosCreados.length > 0) {
+                    const ultimoPedidoId = pedidosCreados.pop(); // Obtiene y elimina el último ID de pedido
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "../CRUD/eliminar_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             const respuesta = xhr.responseText;
-                            console.log("Respuesta del servidor:", respuesta); // Agrega esta línea para depuración
                             if (respuesta === "success") {
                                 alert("Pedido cancelado con éxito");
-                                cancelarPedidoButton.style.display = "none";
-                                agregarPedidoButton.style.display = "block";
-                                pedidoIdCreado = null;
-                                addButton.style.display = "none"; // Oculta el botón "ADD ++"
+                                if (pedidosCreados.length === 0) {
+                                    // Si no quedan más pedidos, oculta el botón "Cancelar Pedido"
+                                    cancelarPedidoButton.style.display = "none";
+                                    agregarPedidoButton.style.display = "block";
+                                    addButton.style.display = "none"; // Oculta el botón "ADD ++"
+                                }
                             } else {
                                 alert("Error al cancelar el pedido");
                             }
                         }
                     };
-                    const datos = `pedidoId=${pedidoIdCreado}`;
+                    const datos = `pedidoId=${ultimoPedidoId}`;
                     xhr.send(datos);
                 }
             });
+
             agregarPlatoButtons.forEach(function(button) {
                 button.addEventListener("click", function() {
                     const platoId = button.getAttribute("data-idplato");
                     const cantidadInput = button.previousElementSibling;
                     const cantidad = parseInt(cantidadInput.value, 10);
+
+                    // Obtener el ID del último pedido creado
+                    const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
+
+                    // Realizar una solicitud AJAX para agregar el detalle de pedido al pedido correspondiente
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "../CRUD/agregar_detalle_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -230,7 +234,7 @@
                             }
                         }
                     };
-                    const datos = `idPlato=${platoId}&cantidad=${cantidad}&pedidoId=${pedidoIdCreado}`;
+                    const datos = `idPlato=${platoId}&cantidad=${cantidad}&pedidoId=${ultimoPedidoId}`;
                     xhr.send(datos);
                 });
             });
