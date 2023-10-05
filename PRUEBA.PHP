@@ -162,16 +162,18 @@
                                     </td>
                                     <td class="text-center align-middle">
                                         <!-- Agrega el formulario para cada plato -->
-                                        <form method="post">
+                                        <form id="modal-form" method="post">
                                             <!-- Campo oculto para el idPlato -->
-                                            <input type="hidden" name="idPlato" value="<?php echo $resultado['idplato']; ?>">
+                                            <input type="hidden" id="idPlato" name="idPlato" value="">
                                             <!-- Campo oculto para el idPedido -->
-                                            <input type="hidden" name="idPedido" value="<?php echo $idPedidoGenerado; ?>">
+                                            <input type="hidden" id="idPedido" name="idPedido" value="<?php echo $idPedidoGenerado; ?>">
                                             <!-- Campo de entrada para la cantidad -->
-                                            <input type="number" name="cantidad" value="1" class="form-control">
+                                            <input type="number" id="cantidad" name="cantidad" value="1" class="form-control">
                                             <!-- Botón "Agregar" para enviar el formulario -->
-                                            <button type="submit" class="btn btn-success">Agregar</button>
+                                            <button type="button" class="btn btn-success" id="agregarPlatoBtn">Agregar</button>
                                         </form>
+
+
                                     </td>
                                 </tr>
                             <?php
@@ -192,39 +194,7 @@
 
 
     <!-- TABLA DE PEDIDOS -->
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Verificar si se enviaron las variables necesarias
-        if (isset($_POST["idPlato"]) && isset($_POST["idPedido"]) && isset($_POST["cantidad"])) {
-            // Obtener los datos del formulario
-            $idPlato = $_POST["idPlato"];
-            $idPedido = $_POST["idPedido"];
-            $cantidad = $_POST["cantidad"];
 
-            // Validar la cantidad
-            if (!is_numeric($idPlato) || !is_numeric($idPedido) || !is_numeric($cantidad) || $cantidad <= 0) {
-                echo "Error: Datos no válidos.";
-            } else {
-                // Insertar los datos en la tabla detalle_pedido
-                include('../ppez/model/conexionBD.php');
-
-                $sqlInsertar = "INSERT INTO detalle_pedido (plato_idplato, cantidad, pedidos_idpedidos) 
-                        VALUES ($idPlato, $cantidad, $idPedido)";
-
-                if ($conexion->query($sqlInsertar) === TRUE) {
-                    echo "Plato agregado al pedido correctamente.";
-                } else {
-                    echo "Error al agregar el plato al pedido: " . $conexion->error;
-                }
-
-                $conexion->close();
-            }
-        } else {
-            echo "INGRESE LOS DATOS";
-        }
-    }
-
-    ?>
     <table class="table">
         <thead>
             <tr>
@@ -262,6 +232,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Script JavaScript para habilitar/deshabilitar el botón -->
     <script>
@@ -274,6 +245,45 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            // Cuando se hace clic en el botón "Agregar"
+            $('#agregarPlatoBtn').on('click', function() {
+                // Obtiene los datos del formulario
+                var idPlato = $('#idPlato').val();
+                var idPedido = $('#idPedido').val();
+                var cantidad = $('#cantidad').val();
+
+                // Realiza una solicitud AJAX para agregar el plato
+                $.ajax({
+                    type: 'POST',
+                    url: '../ppez/agregar_plato.php', // Reemplaza esto con la URL de tu script PHP para agregar platos
+                    data: {
+                        idPlato: idPlato,
+                        idPedido: idPedido,
+                        cantidad: cantidad
+                    },
+                    success: function(response) {
+                        // Maneja la respuesta del servidor (puede ser un mensaje de éxito o datos adicionales para actualizar la interfaz)
+                        var result = JSON.parse(response);
+                        if (result.success) {
+                            alert(result.message); // Puedes reemplazar esto con la lógica para actualizar la interfaz de usuario
+                        } else {
+                            alert('Error: ' + result.message); // Maneja errores si es necesario
+                        }
+                    },
+                    error: function() {
+                        alert('Error al agregar el plato.'); // Maneja errores si es necesario
+                    }
+                });
+
+                // Limpia el formulario o realiza otras acciones según tus necesidades
+                $('#idPlato').val('');
+                $('#cantidad').val(1);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
