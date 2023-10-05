@@ -27,16 +27,13 @@
         ?>
 
         <a href="model/logout.php">Cerrar Sesión</a>
-
-
     </div>
-
-    <!-- ... (tu código existente) ... -->
 
     <div>
         <!-- Agrega el select de mesas -->
         <label for="mesas">Selecciona una mesa:</label>
         <select id="mesas">
+            <option value="0" selected disabled>-- Seleccionar --</option>
             <?php
             include('../Config/conexion.php');
             $sql = "SELECT idmesa, nombre FROM mesa WHERE estado = 0";
@@ -51,24 +48,13 @@
 
         <!-- Agregar botón para agregar pedido -->
         <button id="agregarPedido">AGREGAR PEDIDO</button>
-
-        <!-- Formulario para eliminar pedido -->
-        <form id="eliminarPedidoForm" style="display: none;">
-            <input type="hidden" id="pedidoId" name="pedidoId">
-            <button type="button" id="eliminarPedido">Eliminar Pedido</button>
-        </form>
     </div>
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const selectMesas = document.getElementById("mesas");
             const resultadoDiv = document.getElementById("resultado");
             const agregarPedidoButton = document.getElementById("agregarPedido");
-            const eliminarPedidoForm = document.getElementById("eliminarPedidoForm");
-            const pedidoIdInput = document.getElementById("pedidoId");
-            const eliminarPedidoButton = document.getElementById("eliminarPedido");
 
             selectMesas.addEventListener("change", function() {
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
@@ -102,42 +88,8 @@
                 const datos = `idMozo=<?php echo $idMozo; ?>&idMesa=${mesaId}`;
                 xhr.send(datos);
             });
-
-            // Eliminar el pedido
-            eliminarPedidoButton.addEventListener("click", function() {
-                eliminarPedidoForm.style.display = "block";
-            });
-
-            eliminarPedidoForm.addEventListener("submit", function(e) {
-                e.preventDefault();
-
-                // Obtener el ID del pedido a eliminar
-                const pedidoId = pedidoIdInput.value;
-
-                // Realizar una solicitud AJAX para eliminar el pedido de la base de datos
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "../CRUD/eliminar_pedido.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        const respuesta = xhr.responseText;
-                        if (respuesta === "success") {
-                            alert("Pedido eliminado con éxito");
-                            eliminarPedidoForm.style.display = "none";
-                            // Puedes realizar acciones adicionales si es necesario
-                        } else {
-                            alert("Error al eliminar el pedido");
-                        }
-                    }
-                };
-
-                // Enviar datos al servidor, por ejemplo, el ID del pedido a eliminar
-                const datos = `pedidoId=${pedidoId}`;
-                xhr.send(datos);
-            });
         });
     </script>
-
 </body>
 
 </html>

@@ -21,4 +21,12 @@ if (isset($_POST['idMozo']) && isset($_POST['idMesa'])) {
 } else {
     echo "missing_data"; // Envía una respuesta si faltan datos
 }
+// ... (código para insertar el pedido en la base de datos)
+
+// Obtén el ID del pedido recién insertado
+$pedidoId = mysqli_insert_id($conexion);
+
+// Devuelve el ID del pedido como respuesta
+echo $pedidoId;
+
 ?>
