@@ -95,7 +95,7 @@
                                         <input type="hidden" name="precio" value="<?php echo $resultado['precio'] ?>; ?>">
                                         <input type="number" name="cantidad" value="0" class="form-control">
                                         <!-- Cambia el id a una clase para el botón "Agregar a la Orden" -->
-                                        <button type="button" class="btn btn-success agregar-plato-btn">Agregar</button>
+                                        <button type="button" class="btn btn-success agregar-plato-btn" data-idplato="<?php echo $resultado['idplato']; ?>">Agregar</button>
                                     </td>
                                 </tr>
 
@@ -113,6 +113,45 @@
         </div>
     </div>
 
+    <!-- TABLA DE PEDIDOS -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nomb</th>
+                <th scope="col">Cant</th>
+                <th scope="col">P.U</th>
+                <th scope="col">P.T</th>
+                <th scope="col">Act</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            require("../Config/conexion.php");
+            $sql11 = $conexion->query("SELECT dp.*, p.nombre AS nombre_plato, p.precio AS precio_plato 
+            FROM detalle_pedido AS dp
+            INNER JOIN plato AS p ON dp.plato_idplato = p.idplato");
+
+            while ($resultado11 = $sql11->fetch_assoc()) {
+            ?>
+                <tr>
+                    <td><?php echo $resultado11['nombre_plato'] ?></td>
+                    <td><?php echo $resultado11['cantidad'] ?></td>
+                    <td><?php echo $resultado11['precio_plato'] ?></td>
+                    <td><?php echo $resultado11['cantidad'] * $resultado11['precio_plato'] ?></td> <!-- Precio Total -->
+                    <td class="text-center align-middle">
+                        <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado11['id_detalle'] ?>" class="btn btn-danger">X</a>
+                    </td>
+
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
+    </table>
+
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const selectMesas = document.getElementById("mesas");
@@ -120,6 +159,8 @@
             const agregarPedidoButton = document.getElementById("agregarPedido");
             const cancelarPedidoButton = document.getElementById("cancelarPedido");
             const addButton = document.querySelector('button[data-bs-target="#exampleModal"]'); // Botón "ADD ++"
+            const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
+
 
             selectMesas.addEventListener("change", function() {
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
@@ -184,6 +225,32 @@
                     const datos = `pedidoId=${pedidoIdCreado}`;
                     xhr.send(datos);
                 }
+            });
+            agregarPlatoButtons.forEach(function(button) {
+                button.addEventListener("click", function() {
+                    const platoId = button.getAttribute("data-idplato");
+                    const cantidadInput = button.previousElementSibling;
+                    const cantidad = parseInt(cantidadInput.value, 10);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "../CRUD/agregar_detalle_pedido.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                const respuesta = xhr.responseText;
+                                if (respuesta === "success") {
+                                    alert("Plato agregado al pedido con éxito");
+                                } else {
+                                    alert("Error: " + respuesta); // Muestra el mensaje de error recibido del servidor
+                                }
+                            } else {
+                                alert("Error en la solicitud AJAX. Código de estado: " + xhr.status);
+                            }
+                        }
+                    };
+                    const datos = `idPlato=${platoId}&cantidad=${cantidad}&pedidoId=${pedidoIdCreado}`;
+                    xhr.send(datos);
+                });
             });
         });
     </script>
