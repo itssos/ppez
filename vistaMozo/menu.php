@@ -207,16 +207,11 @@ if (!isset($_SESSION['usuario'])) {
                                         <button type="button" class="btn btn-success agregar-plato-btn" data-idplato="<?php echo $resultado['idplato']; ?>">Agregar</button>
                                     </td>
                                 </tr>
-
                             <?php
                             }
                             ?>
                         </tbody>
                     </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">OK</button>
                 </div>
             </div>
         </div>
@@ -305,7 +300,7 @@ if (!isset($_SESSION['usuario'])) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Venta no guardada',
-                        text: 'El Total del pedido es 0. No se puede finalizar la venta.',
+                        text: 'La cantidad debe ser mayor a 0',
                     });
                 } else {
                     finalizarVenta();
@@ -436,7 +431,6 @@ if (!isset($_SESSION['usuario'])) {
                                     Swal.fire({
                                         position: 'top-end',
                                         icon: 'success',
-                                        title: 'ok',
                                         showConfirmButton: false,
                                         timer: 1500
                                     })
