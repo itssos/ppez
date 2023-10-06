@@ -22,9 +22,40 @@
                 dataType: 'html',
                 success: function(data) {
                     $('#mesas-container').html(data);
+                    // Agregar un manejador de eventos clic a los botones "Actualizar"
+                    $('.btn-actualizar').on('click', function() {
+                        const mesaID = $(this).data('mesa-id');
+                        actualizarMesa(mesaID);
+                    });
                 },
                 error: function() {
                     alert('Error al cargar las mesas.');
+                }
+            });
+        }
+
+        $('.btn-actualizar').on('click', function() {
+            const mesaID = $(this).data('mesa-id');
+            actualizarMesa(mesaID);
+        });
+
+        function actualizarMesa(mesaID) {
+            $.ajax({
+                url: '../CRUD/cambiar_estado_mesa.php', // Reemplaza 'ruta_a_actualizar_mesa.php' con la URL correcta
+                method: 'POST',
+                data: {
+                    mesaID: mesaID
+                },
+                success: function(response) {
+                    if (response === 'success') {
+                        // Actualizar las mesas después de cambiar el estado
+                        cargarMesas();
+                    } else {
+                        alert('Error al actualizar la mesa.');
+                    }
+                },
+                error: function() {
+                    alert('Error al actualizar la mesa.');
                 }
             });
         }

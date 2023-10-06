@@ -12,7 +12,7 @@ if ($result->num_rows > 0) {
         echo 'ID: ' . $row["idmesa"] . '<br>';
         echo 'Capacidad: ' . $row["capacidad"] . '<br>';
         echo 'Estado: ' . ($row["estado"] == 0 ? "Desocupado" : "Ocupado") . '<br>';
-        echo '<button class="btn btn-primary">' . $row['idmesa'] . ' Actualizar</button>';
+        echo '<button class="btn btn-primary btn-actualizar" data-mesa-id="' . $row['idmesa'] . '">Actualizar</button>';
         echo '</p>';
         echo '</div>';
         echo '</div>';
