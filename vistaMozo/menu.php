@@ -88,6 +88,9 @@
 
         <!-- Botón para cancelar pedido -->
         <button id="cancelarPedido" style="display: none;">CANCELAR PEDIDO</button>
+
+        <!-- Elemento para mostrar el ID del pedido -->
+        <p id="pedidoIdTexto"></p>
     </div>
 
 
@@ -161,8 +164,9 @@
             const resultadoDiv = document.getElementById("resultado");
             const agregarPedidoButton = document.getElementById("agregarPedido");
             const cancelarPedidoButton = document.getElementById("cancelarPedido");
-            const addButton = document.querySelector('button[data-bs-target="#exampleModal"]'); 
+            const addButton = document.querySelector('button[data-bs-target="#exampleModal"]');
             const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
+            const pedidoIdTexto = document.getElementById("pedidoIdTexto"); // Elemento de texto para el ID del pedido
 
             const pedidosCreados = [];
 
@@ -184,12 +188,14 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         const respuesta = xhr.responseText;
                         if (respuesta.startsWith("success")) {
-                            const pedidoId = respuesta.split(':')[1]; 
+                            const pedidoId = respuesta.split(':')[1];
                             alert("Pedido agregado con éxito");
-                            pedidosCreados.push(pedidoId); 
+                            pedidosCreados.push(pedidoId);
                             cancelarPedidoButton.style.display = "block";
                             agregarPedidoButton.style.display = "none";
-                            addButton.style.display = "block"; 
+                            addButton.style.display = "block";
+                            // Actualizar el elemento de texto con el ID del pedido
+                            pedidoIdTexto.textContent = `ID Pedido: ${pedidoId}`;
                         } else {
                             alert("Error al agregar el pedido");
                         }
@@ -201,7 +207,7 @@
 
             cancelarPedidoButton.addEventListener("click", function() {
                 if (pedidosCreados.length > 0) {
-                    const ultimoPedidoId = pedidosCreados.pop(); 
+                    const ultimoPedidoId = pedidosCreados.pop();
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "../CRUD/eliminar_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -211,9 +217,11 @@
                             if (respuesta === "success") {
                                 alert("Pedido cancelado con éxito");
                                 if (pedidosCreados.length === 0) {
+                                    // Actualizar el elemento de texto a "ID Pedido: Ninguno"
+                                    pedidoIdTexto.textContent = "ID Pedido: Ninguno";
                                     cancelarPedidoButton.style.display = "none";
                                     agregarPedidoButton.style.display = "block";
-                                    addButton.style.display = "none"; 
+                                    addButton.style.display = "none";
                                 }
                             } else {
                                 alert("Error al cancelar el pedido");
@@ -233,7 +241,7 @@
 
                     if (cantidad <= 0) {
                         alert("La cantidad debe ser mayor que 0");
-                        return; 
+                        return;
                     }
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
                     const xhr = new XMLHttpRequest();
@@ -246,7 +254,7 @@
                                 if (respuesta === "success") {
                                     alert("Plato agregado al pedido con éxito");
                                 } else {
-                                    alert("Error: " + respuesta); 
+                                    alert("Error: " + respuesta);
                                 }
                             } else {
                                 alert("Error en la solicitud AJAX. Código de estado: " + xhr.status);
@@ -260,6 +268,7 @@
 
         });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 </body>
