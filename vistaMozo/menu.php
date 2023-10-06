@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         function tiempoReal() {
             var tabla = $.ajax({
@@ -265,7 +266,13 @@
                         const respuesta = xhr.responseText;
                         if (respuesta.startsWith("success")) {
                             const pedidoId = respuesta.split(":")[1];
-                            alert("Pedido agregado con éxito");
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Mesa selecionada',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                             pedidosCreados.push(pedidoId);
                             cancelarPedidoButton.style.display = "block";
                             agregarPedidoButton.style.display = "none";
@@ -275,7 +282,11 @@
                             finalizarVentaButton.style.display = "block";
                             totalPedidoElement.style.display = "block";
                         } else {
-                            alert("Error al agregar el pedido");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Mesa no encontrada...',
+                                text: 'Selecione una mesa por favor!',
+                            })
                         }
                     }
                 };
@@ -319,7 +330,15 @@
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             const respuesta = xhr.responseText;
                             if (respuesta === "success") {
-                                alert("Pedido cancelado con éxito");
+
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Pedido Cancelado',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
                                 if (pedidosCreados.length === 0) {
                                     totalPedidoElement.style.display = "none"; // Ocultar el elemento al cancelar pedido
                                     pedidoIdTexto.textContent = "ID Pedido: Ninguno";
@@ -330,7 +349,13 @@
                                     finalizarVentaButton.style.display = "none";
                                 }
                             } else {
-                                alert("Error al cancelar el pedido");
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'No se puede cancelar',
+                                    text: 'Elimina los pedidos',
+                                    footer: '<a href="">Porque sucede esto?</a>'
+                                })
+                            
                             }
                         }
                     };
