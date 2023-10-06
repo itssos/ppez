@@ -42,7 +42,11 @@
         }
         setInterval(tiempoReal, 500);
     </script>
-
+    <style>
+        #miTabla {
+            display: none;
+        }
+    </style>
 
 </head>
 
@@ -167,6 +171,7 @@
             const addButton = document.querySelector('button[data-bs-target="#exampleModal"]');
             const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
             const pedidoIdTexto = document.getElementById("pedidoIdTexto"); // Elemento de texto para el ID del pedido
+            const miTablaSection = document.getElementById("miTabla");
 
             const pedidosCreados = [];
 
@@ -194,6 +199,7 @@
                             cancelarPedidoButton.style.display = "block";
                             agregarPedidoButton.style.display = "none";
                             addButton.style.display = "block";
+                            miTablaSection.style.display = "block";
                             // Actualizar el elemento de texto con el ID del pedido
                             pedidoIdTexto.textContent = `ID Pedido: ${pedidoId}`;
                         } else {
@@ -222,6 +228,8 @@
                                     cancelarPedidoButton.style.display = "none";
                                     agregarPedidoButton.style.display = "block";
                                     addButton.style.display = "none";
+                                    miTablaSection.style.display = "none";
+
                                 }
                             } else {
                                 alert("Error al cancelar el pedido");
