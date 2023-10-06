@@ -38,8 +38,6 @@ if (isset($_SESSION['pedidoIdCreado'])) {
             </tr>';
     }
     echo '</table>';
-
-    echo '<p>Total del pedido: ' . $totalPedido . '</p>'; // Muestra el total del pedido
 } else {
     echo "No se ha creado un pedido aún.";
 }

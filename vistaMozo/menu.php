@@ -39,7 +39,39 @@
                     });
                 });
             });
+            calcularTotalPedido();
         }
+
+        function calcularTotalPedido() {
+            var totalPedido = 0; // Inicializa una variable para almacenar el total del pedido
+            var filas = document.querySelectorAll("#miTabla table tbody tr");
+
+            filas.forEach(function(fila) {
+                var cantidadElement = fila.querySelector("td:nth-child(3)");
+                var precioElement = fila.querySelector("td:nth-child(4)");
+
+                if (cantidadElement && precioElement) {
+                    var cantidad = parseInt(cantidadElement.textContent);
+                    var precio = parseFloat(precioElement.textContent);
+
+                    console.log("Cantidad:", cantidad); // Agregar console.log para depurar
+                    console.log("Precio:", precio); // Agregar console.log para depurar
+
+                    if (!isNaN(cantidad) && !isNaN(precio)) {
+                        var subtotal = cantidad * precio;
+                        totalPedido += subtotal;
+                    }
+                }
+            });
+
+            // Mostrar el total del pedido en algún lugar (puedes usar un elemento HTML para mostrarlo)
+            var totalPedidoElement = document.getElementById("totalPedido");
+            if (totalPedidoElement) {
+                totalPedidoElement.textContent = "Total del pedido: s/" + totalPedido.toFixed(2); // Puedes personalizar el formato como desees
+            }
+        }
+
+
         setInterval(tiempoReal, 500);
     </script>
     <style>
@@ -157,10 +189,14 @@
         </div>
     </div>
     <br>
+
+    <p id="totalPedido">Total del pedido: s/0.00</p>
+
     <!-- TABLA DE PEDIDOS -->
     <section id="miTabla">
-
     </section>
+    <button id="finalizarVenta" class="btn btn-primary">Finalizar</button>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -172,7 +208,6 @@
             const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
             const pedidoIdTexto = document.getElementById("pedidoIdTexto"); // Elemento de texto para el ID del pedido
             const miTablaSection = document.getElementById("miTabla");
-
             const pedidosCreados = [];
 
             selectMesas.addEventListener("change", function() {
@@ -193,7 +228,7 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         const respuesta = xhr.responseText;
                         if (respuesta.startsWith("success")) {
-                            const pedidoId = respuesta.split(':')[1];
+                            const pedidoId = respuesta.split(":")[1];
                             alert("Pedido agregado con éxito");
                             pedidosCreados.push(pedidoId);
                             cancelarPedidoButton.style.display = "block";
@@ -210,6 +245,31 @@
                 const datos = `idMozo=<?php echo $idMozo; ?>&idMesa=${mesaId}`;
                 xhr.send(datos);
             });
+
+            const finalizarVentaButton = document.getElementById("finalizarVenta");
+            finalizarVentaButton.addEventListener("click", function() {
+                if (pedidosCreados.length > 0) {
+                    const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "../CRUD/generarVenta.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            const respuesta = xhr.responseText;
+                            if (respuesta === "success") {
+                                alert("Venta finalizada con éxito");
+                            } else {
+                                alert("Error al finalizar la venta: " + respuesta);
+                            }
+                        }
+                    };
+                    console.log("Total Pedido:", totalPedido); // Agregar este console.log
+                    const datos = `pedidoId=${ultimoPedidoId}&montoTotal=${totalPedido}`;
+
+                    xhr.send(datos);
+                }
+            });
+
 
             cancelarPedidoButton.addEventListener("click", function() {
                 if (pedidosCreados.length > 0) {
