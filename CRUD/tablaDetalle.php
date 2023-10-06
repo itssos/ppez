@@ -29,11 +29,10 @@ if (isset($_SESSION['pedidoIdCreado'])) {
                 <td>' . $resultado11['cantidad'] . '</td>
                 <td>' . $resultado11['precio_plato'] . '</td>
                 <td>' . $subtotal . '</td>
-                <td class="text-center align-middle">
-                    <a href="#" class="eliminar-detalle" data-id-detalle="' . $resultado11['id_detalle'] . '">
-                        <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+                <td class="align-middle">
+                    <button class="btn btn-warning btn-sm eliminar-detalle" data-id-detalle="' . $resultado11['id_detalle'] . '">
                         Eliminar
-                    </a>
+                    </button>
                 </td>
             </tr>';
     }
