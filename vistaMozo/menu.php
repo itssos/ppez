@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../login.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -33,7 +40,13 @@
                         success: function(response) {
                             if (response === "success") {
                                 tiempoReal();
-                                alert("Detalle de pedido eliminado con éxito.");
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Plato eliminado',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
                             } else {
                                 alert("Error al eliminar el detalle de pedido: " + response);
                             }
@@ -90,14 +103,6 @@
 
 <body>
     <div class="container_MOZO">
-        <?php
-        session_start();
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ../login.php');
-            exit;
-        }
-
-        ?>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">P'PEZ</a>
@@ -372,7 +377,13 @@
                     const cantidad = parseInt(cantidadInput.value, 10);
 
                     if (cantidad <= 0) {
-                        alert("La cantidad debe ser mayor que 0");
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Cantidad deber ser mayor a 0',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         return;
                     }
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
@@ -386,7 +397,13 @@
                                 if (respuesta === "success") {
                                     alert("Plato agregado al pedido con éxito");
                                 } else {
-                                    alert("Error: " + respuesta);
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'ok',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
                                 }
                             } else {
                                 alert("Error en la solicitud AJAX. Código de estado: " + xhr.status);
