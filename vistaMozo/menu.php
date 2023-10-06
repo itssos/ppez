@@ -108,6 +108,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="model/logout.php">Cerrar Sesión</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -116,26 +119,18 @@
         $nombreUsuario = $_SESSION['usuario'];
         $idMozo = isset($_SESSION['idMozo']) ? $_SESSION['idMozo'] : 'ID no encontrado';
 
-        echo "<p>Bienvenido, $nombreUsuario</p>";
-        echo "<p>ID: $idMozo</p>";
-
+        echo "<figure class='text-center'><blockquote class='blockquote'>";
+        echo "<p>¡Bienvenido!, $nombreUsuario</p>";
+        echo "</blockquote><figcaption class='blockquote-footer'>
+        ID MOZO: <cite title='Source Title'>$idMozo</cite>
+        </figcaption>";
         ?>
-
-        <a href="model/logout.php">Cerrar Sesión</a>
     </div>
 
-    <figure class="text-center">
-        <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
-        </figcaption>
-    </figure>
 
     <div>
         <!-- Agrega el select de mesas -->
-        <label for="mesas">Selecciona una mesa:</label>
+        <label for="mesas" style="font-size: 20px;">Selecciona una mesa:</label>
         <select id="mesas">
             <option value="0" selected disabled>-- Seleccionar --</option>
             <?php
@@ -151,18 +146,19 @@
         <div id="resultado"></div>
 
         <!-- Agregar botón para agregar pedido -->
-        <button id="agregarPedido">AGREGAR PEDIDO</button>
+
+        <button id="agregarPedido" style="margin: 20px;">AGREGAR PEDIDO</button>
 
         <!-- Botón para cancelar pedido -->
-        <button id="cancelarPedido" style="display: none;">CANCELAR PEDIDO</button>
+        <button id="cancelarPedido" style=" margin: 20px; display: none;">CANCELAR PEDIDO</button>
 
         <!-- Elemento para mostrar el ID del pedido -->
-        <p id="pedidoIdTexto"></p>
+        <p id="pedidoIdTexto" style="margin-left: 20px;"></p>
     </div>
 
 
     <!-- Button trigger modal -->
-    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' style="display: none;">ADD ++</button>
+    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' style="display: none; margin: 0 auto;">ADD ++</button>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -220,13 +216,11 @@
         </div>
     </div>
     <br>
-    <p id="totalPedidoVisible" style="display: none;">Total del pedido: s/0.00</p>
+    <p id="totalPedidoVisible" style="display: none; margin: 20px;">Total del pedido: s/0.00</p>
     <!-- TABLA DE PEDIDOS -->
     <section id="miTabla">
     </section>
-    <button id="finalizarVenta" class="btn btn-primary" style="display: none;">Finalizar</button>
-
-
+    <button id="finalizarVenta" class="btn btn-primary" style="display: none; margin: 0 auto;">Finalizar</button>
     <div class="footer">
         <nav>
             <a href="pagina1.html">Página 1</a>
