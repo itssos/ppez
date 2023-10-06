@@ -348,14 +348,15 @@
                                     miTablaSection.style.display = "none";
                                     finalizarVentaButton.style.display = "none";
                                 }
+
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'No se puede cancelar',
-                                    text: 'Elimina los pedidos',
+                                    title: 'Algo ocurrio...',
+                                    text: 'Regargue la pagina',
                                     footer: '<a href="">Porque sucede esto?</a>'
                                 })
-                            
+
                             }
                         }
                     };
