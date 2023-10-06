@@ -41,9 +41,10 @@
             });
             calcularTotalPedido();
         }
+        var totalPedido = 0;
 
         function calcularTotalPedido() {
-            var totalPedido = 0; // Inicializa una variable para almacenar el total del pedido
+            totalPedido = 0; // Reinicializa el total del pedido
             var filas = document.querySelectorAll("#miTabla table tbody tr");
 
             filas.forEach(function(fila) {
@@ -70,6 +71,7 @@
                 totalPedidoElement.textContent = "Total del pedido: s/" + totalPedido.toFixed(2); // Puedes personalizar el formato como desees
             }
         }
+
 
 
         setInterval(tiempoReal, 500);
@@ -263,9 +265,10 @@
                             }
                         }
                     };
+
+                    // Enviar el monto total actualizado
                     console.log("Total Pedido:", totalPedido); // Agregar este console.log
                     const datos = `pedidoId=${ultimoPedidoId}&montoTotal=${totalPedido}`;
-
                     xhr.send(datos);
                 }
             });
