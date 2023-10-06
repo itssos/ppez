@@ -301,6 +301,18 @@ if (!isset($_SESSION['usuario'])) {
 
             const finalizarVentaButton = document.getElementById("finalizarVenta");
             finalizarVentaButton.addEventListener("click", function() {
+                if (totalPedido === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Venta no guardada',
+                        text: 'El Total del pedido es 0. No se puede finalizar la venta.',
+                    });
+                } else {
+                    finalizarVenta();
+                }
+            });
+
+            function finalizarVenta() {
                 if (pedidosCreados.length > 0) {
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
                     const xhr = new XMLHttpRequest();
@@ -310,7 +322,17 @@ if (!isset($_SESSION['usuario'])) {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             const respuesta = xhr.responseText;
                             if (respuesta === "success") {
-                                alert("Venta finalizada con éxito");
+                                Swal.fire({
+                                    title: 'Venta registrada',
+                                    text: 'Esta pagina se recargara en 5s',
+                                    imageUrl: '../assets/img/dinero.gif',
+                                    imageWidth: 400,
+                                    imageHeight: 200,
+                                    imageAlt: 'Custom image',
+                                });
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 5000);
                             } else {
                                 alert("Error al finalizar la venta: " + respuesta);
                             }
@@ -322,7 +344,7 @@ if (!isset($_SESSION['usuario'])) {
                     const datos = `pedidoId=${ultimoPedidoId}&montoTotal=${totalPedido}`;
                     xhr.send(datos);
                 }
-            });
+            }
 
 
             cancelarPedidoButton.addEventListener("click", function() {
