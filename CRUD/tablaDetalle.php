@@ -38,6 +38,7 @@ if (isset($_SESSION['pedidoIdCreado'])) {
             </tr>';
     }
     echo '</table>';
+
 } else {
     echo "No se ha creado un pedido aún.";
 }

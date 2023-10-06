@@ -66,7 +66,7 @@
             });
 
             // Mostrar el total del pedido en algún lugar (puedes usar un elemento HTML para mostrarlo)
-            var totalPedidoElement = document.getElementById("totalPedido");
+            var totalPedidoElement = document.getElementById("totalPedidoVisible");
             if (totalPedidoElement) {
                 totalPedidoElement.textContent = "Total del pedido: s/" + totalPedido.toFixed(2); // Puedes personalizar el formato como desees
             }
@@ -191,13 +191,11 @@
         </div>
     </div>
     <br>
-
-    <p id="totalPedido">Total del pedido: s/0.00</p>
-
+    <p id="totalPedidoVisible" style="display: none;">Total del pedido: s/0.00</p>
     <!-- TABLA DE PEDIDOS -->
     <section id="miTabla">
     </section>
-    <button id="finalizarVenta" class="btn btn-primary">Finalizar</button>
+    <button id="finalizarVenta" class="btn btn-primary" style="display: none;">Finalizar</button>
 
 
     <script>
@@ -211,6 +209,8 @@
             const pedidoIdTexto = document.getElementById("pedidoIdTexto"); // Elemento de texto para el ID del pedido
             const miTablaSection = document.getElementById("miTabla");
             const pedidosCreados = [];
+            const totalPedidoElement = document.getElementById("totalPedidoVisible"); // Elemento del total del pedido
+
 
             selectMesas.addEventListener("change", function() {
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
@@ -237,8 +237,9 @@
                             agregarPedidoButton.style.display = "none";
                             addButton.style.display = "block";
                             miTablaSection.style.display = "block";
-                            // Actualizar el elemento de texto con el ID del pedido
                             pedidoIdTexto.textContent = `ID Pedido: ${pedidoId}`;
+                            finalizarVentaButton.style.display = "block";
+                            totalPedidoElement.style.display = "block";
                         } else {
                             alert("Error al agregar el pedido");
                         }
@@ -286,13 +287,13 @@
                             if (respuesta === "success") {
                                 alert("Pedido cancelado con éxito");
                                 if (pedidosCreados.length === 0) {
-                                    // Actualizar el elemento de texto a "ID Pedido: Ninguno"
+                                    totalPedidoElement.style.display = "none"; // Ocultar el elemento al cancelar pedido
                                     pedidoIdTexto.textContent = "ID Pedido: Ninguno";
                                     cancelarPedidoButton.style.display = "none";
                                     agregarPedidoButton.style.display = "block";
                                     addButton.style.display = "none";
                                     miTablaSection.style.display = "none";
-
+                                    finalizarVentaButton.style.display = "none";
                                 }
                             } else {
                                 alert("Error al cancelar el pedido");
