@@ -322,17 +322,31 @@ if (!isset($_SESSION['usuario'])) {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             const respuesta = xhr.responseText;
                             if (respuesta === "success") {
+                                let timerInterval
                                 Swal.fire({
-                                    title: 'Venta registrada',
-                                    text: 'Esta pagina se recargara en 5s',
+                                    title: 'Venta Registra',
                                     imageUrl: '../assets/img/dinero.gif',
-                                    imageWidth: 400,
-                                    imageHeight: 200,
-                                    imageAlt: 'Custom image',
-                                });
-                                setTimeout(function() {
-                                    window.location.reload();
-                                }, 5000);
+                                    html: 'Esta página se recargará en <b></b> milisegundos.',
+                                    timer: 5000, // Aquí establece la cantidad de milisegundos
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                        const b = Swal.getHtmlContainer().querySelector('b')
+                                        timerInterval = setInterval(() => {
+                                            b.textContent = Swal.getTimerLeft()
+                                        }, 100)
+                                    },
+                                    willClose: () => {
+                                        clearInterval(timerInterval)
+                                    }
+                                }).then((result) => {
+                                    /* Read more about handling dismissals below */
+                                    if (result.dismiss === Swal.DismissReason.timer) {
+                                        console.log('La página se recargó automáticamente')
+                                        window.location.reload(); // Recarga la página
+                                    }
+                                })
+
                             } else {
                                 alert("Error al finalizar la venta: " + respuesta);
                             }
