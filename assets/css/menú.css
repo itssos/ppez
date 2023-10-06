@@ -1,0 +1,32 @@
+/* Estilos para el footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Estilos para los enlaces del footer */
+.footer nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px; /* Espacio entre los enlaces */
+    transition: color 0.3s, background-color 0.3s; /* Transición suave para los cambios de color */
+}
+
+/* Cambia el color de fondo y el color del texto al pasar el mouse */
+.footer nav a:hover {
+    background-color: #555; /* Color de fondo al pasar el mouse */
+    color: #fff; /* Color del texto al pasar el mouse */
+}
+
+/* Cambia el color de fondo y el color del texto cuando el enlace esté seleccionado */
+.footer nav a:active,
+.footer nav a:focus {
+    background-color: #888; /* Color de fondo cuando el enlace está activo */
+    color: #fff; /* Color del texto cuando el enlace está activo */
+}

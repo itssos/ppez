@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
+    <link rel="stylesheet" href="../assets/css/menú.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -84,15 +85,34 @@
 
 </head>
 
+
+
 <body>
     <div class="container_MOZO">
-        <h1>Bienvenido al sistema</h1>
         <?php
         session_start();
         if (!isset($_SESSION['usuario'])) {
             header('Location: ../login.php');
             exit;
         }
+
+        ?>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">P'PEZ</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <?php
         $nombreUsuario = $_SESSION['usuario'];
         $idMozo = isset($_SESSION['idMozo']) ? $_SESSION['idMozo'] : 'ID no encontrado';
 
@@ -103,6 +123,15 @@
 
         <a href="model/logout.php">Cerrar Sesión</a>
     </div>
+
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 
     <div>
         <!-- Agrega el select de mesas -->
@@ -196,6 +225,17 @@
     <section id="miTabla">
     </section>
     <button id="finalizarVenta" class="btn btn-primary" style="display: none;">Finalizar</button>
+
+
+    <div class="footer">
+        <nav>
+            <a href="pagina1.html">Página 1</a>
+            <a href="pagina2.html">Página 2</a>
+            <a href="pagina3.html">Página 3</a>
+            <a href="pagina3.html">Página 4</a>
+        </nav>
+    </div>
+
 
 
     <script>
