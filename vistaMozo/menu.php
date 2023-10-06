@@ -149,14 +149,11 @@
             </div>
         </div>
     </div>
-
+    <br>
     <!-- TABLA DE PEDIDOS -->
     <section id="miTabla">
 
     </section>
-
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -164,10 +161,9 @@
             const resultadoDiv = document.getElementById("resultado");
             const agregarPedidoButton = document.getElementById("agregarPedido");
             const cancelarPedidoButton = document.getElementById("cancelarPedido");
-            const addButton = document.querySelector('button[data-bs-target="#exampleModal"]'); // Botón "ADD ++"
+            const addButton = document.querySelector('button[data-bs-target="#exampleModal"]'); 
             const agregarPlatoButtons = document.querySelectorAll(".agregar-plato-btn");
 
-            // Array para almacenar los IDs de los pedidos creados
             const pedidosCreados = [];
 
             selectMesas.addEventListener("change", function() {
@@ -181,7 +177,6 @@
                 const selectedOption = selectMesas.options[selectMesas.selectedIndex];
                 const mesaId = selectedOption.value;
 
-                // Realizar una solicitud AJAX para agregar el pedido a la base de datos
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", "../CRUD/agregar_pedido.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -189,12 +184,12 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         const respuesta = xhr.responseText;
                         if (respuesta.startsWith("success")) {
-                            const pedidoId = respuesta.split(':')[1]; // Extrae el ID del pedido
+                            const pedidoId = respuesta.split(':')[1]; 
                             alert("Pedido agregado con éxito");
-                            pedidosCreados.push(pedidoId); // Agrega el ID del pedido al array
+                            pedidosCreados.push(pedidoId); 
                             cancelarPedidoButton.style.display = "block";
                             agregarPedidoButton.style.display = "none";
-                            addButton.style.display = "block"; // Muestra el botón "ADD ++"
+                            addButton.style.display = "block"; 
                         } else {
                             alert("Error al agregar el pedido");
                         }
@@ -206,7 +201,7 @@
 
             cancelarPedidoButton.addEventListener("click", function() {
                 if (pedidosCreados.length > 0) {
-                    const ultimoPedidoId = pedidosCreados.pop(); // Obtiene y elimina el último ID de pedido
+                    const ultimoPedidoId = pedidosCreados.pop(); 
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "../CRUD/eliminar_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -216,10 +211,9 @@
                             if (respuesta === "success") {
                                 alert("Pedido cancelado con éxito");
                                 if (pedidosCreados.length === 0) {
-                                    // Si no quedan más pedidos, oculta el botón "Cancelar Pedido"
                                     cancelarPedidoButton.style.display = "none";
                                     agregarPedidoButton.style.display = "block";
-                                    addButton.style.display = "none"; // Oculta el botón "ADD ++"
+                                    addButton.style.display = "none"; 
                                 }
                             } else {
                                 alert("Error al cancelar el pedido");
@@ -237,10 +231,11 @@
                     const cantidadInput = button.previousElementSibling;
                     const cantidad = parseInt(cantidadInput.value, 10);
 
-                    // Obtener el ID del último pedido creado
+                    if (cantidad <= 0) {
+                        alert("La cantidad debe ser mayor que 0");
+                        return; 
+                    }
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
-
-                    // Realizar una solicitud AJAX para agregar el detalle de pedido al pedido correspondiente
                     const xhr = new XMLHttpRequest();
                     xhr.open("POST", "../CRUD/agregar_detalle_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -251,7 +246,7 @@
                                 if (respuesta === "success") {
                                     alert("Plato agregado al pedido con éxito");
                                 } else {
-                                    alert("Error: " + respuesta); // Muestra el mensaje de error recibido del servidor
+                                    alert("Error: " + respuesta); 
                                 }
                             } else {
                                 alert("Error en la solicitud AJAX. Código de estado: " + xhr.status);
@@ -262,6 +257,7 @@
                     xhr.send(datos);
                 });
             });
+
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
