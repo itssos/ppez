@@ -112,10 +112,16 @@ if (!isset($_SESSION['usuario'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <a class="nav-link active" aria-current="page" href="../vistaMozo/menu.php">Pedidos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="model/logout.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="../vistaMozo/mesas.php">Mesas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../vistaMozo/ventas.php">Ventas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../model/logout.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -222,14 +228,6 @@ if (!isset($_SESSION['usuario'])) {
     <section id="miTabla">
     </section>
     <button id="finalizarVenta" class="btn btn-primary" style="display: none; margin: 0 auto;">Finalizar</button>
-    <div class="footer">
-        <nav>
-            <a href="../vistaMozo/ventas.php">VENTAS</a>
-            <a href="../vistaMozo/mesas.php">MESAS</a>
-        </nav>
-    </div>
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

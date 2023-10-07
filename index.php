@@ -16,7 +16,7 @@
 
         // Verificar si el usuario está autenticado (si no lo está, redirigirlo al inicio de sesión)
         if (!isset($_SESSION['usuario'])) {
-            header('Location: login.php');
+            header('Location: logddfin.php');
             exit;
         }
 
