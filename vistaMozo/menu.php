@@ -224,10 +224,8 @@ if (!isset($_SESSION['usuario'])) {
     <button id="finalizarVenta" class="btn btn-primary" style="display: none; margin: 0 auto;">Finalizar</button>
     <div class="footer">
         <nav>
-            <a href="pagina1.html">Página 1</a>
-            <a href="pagina2.html">Página 2</a>
-            <a href="pagina3.html">Página 3</a>
-            <a href="pagina3.html">Página 4</a>
+            <a href="../vistaMozo/ventas.php">VENTAS</a>
+            <a href="../vistaMozo/mesas.php">MESAS</a>
         </nav>
     </div>
 

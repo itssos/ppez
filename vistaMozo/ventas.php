@@ -11,21 +11,13 @@ if (!isset($_SESSION['usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mesas</title>
+    <title>Ventas en Tiempo Real</title>
     <link rel="stylesheet" href="../assets/css/menú.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            background-color: aliceblue;
-            /* Celeste */
-        }
-    </style>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
-
     <div class="container_MOZO">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
@@ -57,77 +49,82 @@ if (!isset($_SESSION['usuario'])) {
         ?>
     </div>
 
-    <div class="container">
-        <div id="mesas-container" class="row row-cols-1 row-cols-md-2 g-4">
-            <!-- Las tarjetas de las mesas se cargarán aquí -->
-        </div>
+    <div id="tablaVentas">
+        <!-- Aquí se mostrará la tabla -->
     </div>
+    <br><br>
 
-
-    <script>
-        function cargarMesas() {
-            $.ajax({
-                url: '../CRUD/obtener_mesas.php',
-                method: 'GET',
-                dataType: 'html',
-                success: function(data) {
-                    $('#mesas-container').html(data);
-                    // Agregar un manejador de eventos clic a los botones "Actualizar"
-                    $('.btn-actualizar').on('click', function() {
-                        const mesaID = $(this).data('mesa-id');
-                        actualizarMesa(mesaID);
-                    });
-                },
-                error: function() {
-                    alert('Error al cargar las mesas.');
-                }
-            });
-        }
-
-        $('.btn-actualizar').on('click', function() {
-            const mesaID = $(this).data('mesa-id');
-            actualizarMesa(mesaID);
-        });
-
-        function actualizarMesa(mesaID) {
-            $.ajax({
-                url: '../CRUD/cambiar_estado_mesa.php', // Reemplaza 'ruta_a_actualizar_mesa.php' con la URL correcta
-                method: 'POST',
-                data: {
-                    mesaID: mesaID
-                },
-                success: function(response) {
-                    if (response === 'success') {
-                        // Actualizar las mesas después de cambiar el estado
-                        cargarMesas();
-                    } else {
-                        alert('Error al actualizar la mesa.');
-                    }
-                },
-                error: function() {
-                    alert('Error al actualizar la mesa.');
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            cargarMesas();
-            setInterval(function() {
-                cargarMesas();
-            }, 1000);
-        });
-    </script>
-
-    <br>
     <div class="footer">
         <nav>
             <a href="../vistaMozo/menu.php">MENÚ</a>
-            <a href="../vistaMozo/ventas.php">VENTAS</a>
+            <a href="../vistaMozo/mesas.php">MESAS</a>
         </nav>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
+    <script>
+        // Función para cargar y actualizar la tabla de ventas
+        function cargarTablaVentas() {
+            $.ajax({
+                url: '../CRUD/obtener_ventas.php', // Reemplaza con la URL correcta para obtener los datos de ventas
+                method: 'GET',
+                dataType: 'html',
+                success: function(data) {
+                    $('#tablaVentas').html(data);
+
+                    // Inicializa la tabla DataTable
+                    $('#ventasTable').DataTable();
+                },
+                error: function() {
+                    console.log('Error al cargar las ventas.');
+                }
+            });
+        }
+
+        // Carga la tabla inicialmente al cargar la página
+        cargarTablaVentas();
+
+        // Actualiza la tabla cada 5 segundos (puedes ajustar el intervalo según tus necesidades)
+        setInterval(function() {
+            cargarTablaVentas();
+        }, 5000); // 5000 milisegundos = 5 segundos
+
+        // Maneja el clic en el botón "Actualizar"
+        $(document).on('click', '.btn-actualizar', function() {
+            const ventaID = $(this).data('venta-id');
+
+            // Realiza la solicitud Ajax para actualizar el estado
+            $.ajax({
+                url: '../CRUD/actualizar_estado_venta.php', // Ruta de tu script PHP para actualizar el estado
+                method: 'POST',
+                data: {
+                    ventaID: ventaID
+                },
+                success: function(response) {
+                    if (response === 'success') {
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Pedido Pagado',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        cargarTablaVentas();
+                    } else {
+                        alert('Error al actualizar el estado.');
+                    }
+                },
+                error: function() {
+                    alert('Error al actualizar el estado.');
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
