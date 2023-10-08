@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario ya está autenticado
 if (isset($_SESSION['usuario'])) {
-    header('Location: vistaAdmin/index.php'); // Redirige al index.php u otra página deseada
+    header('Location: vistaAdmin/interfazAdmin.php'); // Redirige al index.php u otra página deseada
     exit;
 }
 
