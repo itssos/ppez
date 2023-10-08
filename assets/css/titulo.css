@@ -1,0 +1,13 @@
+/* Estilos para centrar vertical y horizontalmente */
+.titulo-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilos para el título */
+.titulo-container h1 {
+    font-family: 'Fuente Deseada', sans-serif; /* Cambia 'Fuente Deseada' a la fuente que deseas usar */
+    font-size: 36px; /* Tamaño de fuente */
+    font-weight: bold; /* Hace que el texto esté en negrita */
+
+}

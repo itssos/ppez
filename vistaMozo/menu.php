@@ -13,6 +13,7 @@ if (!isset($_SESSION['usuario'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <link rel="stylesheet" href="../assets/css/menú.css">
+    <link rel="stylesheet" href="../assets/css/titulo.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -138,6 +139,12 @@ if (!isset($_SESSION['usuario'])) {
         </figcaption>";
         ?>
     </div>
+
+    <br>
+    <div class="titulo-container">
+        <h2>REGISTRAR PEDIDOS</h2>
+    </div>
+    <br>
 
 
     <div>
@@ -317,8 +324,8 @@ if (!isset($_SESSION['usuario'])) {
                                 Swal.fire({
                                     title: 'Venta Registra',
                                     imageUrl: '../assets/img/dinero.gif',
-                                    html: 'Esta página se recargará en <b></b> milisegundos.',
-                                    timer: 5000, // Aquí establece la cantidad de milisegundos
+                                    html: 'Guardando venta...<b></b> milisegundos.',
+                                    timer: 2000, // Aquí establece la cantidad de milisegundos
                                     timerProgressBar: true,
                                     didOpen: () => {
                                         Swal.showLoading()

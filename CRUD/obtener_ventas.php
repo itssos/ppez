@@ -10,7 +10,7 @@ if ($result->num_rows > 0) {
     echo '<thead>';
     echo '<tr>';
     echo '<th>ID</th>';
-    echo '<th>IdPedido</th>';
+    echo '<th>#Pedido</th>';
     echo '<th>Fecha</th>';
     echo '<th>Total</th>';
     echo '<th>Acción</th>'; // Cambio de "Estado" a "Acción"
@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
         echo '<td>' . $row['id_ventas'] . '</td>';
         echo '<td>' . $row['pedidos_idpedidos'] . '</td>';
         echo '<td>' . $row['fecha'] . '</td>';
-        echo '<td>' . $row['monto_total'] . '</td>';
+        echo '<td>s/' . $row['monto_total'] . '</td>';
         echo '<td><button class="btn-actualizar" data-venta-id="' . $row['id_ventas'] . '">PAGAR</button></td>'; // Botón para actualizar
         echo '</tr>';
     }
@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 } else {
-    echo 'No se encontraron ventas para hoy con estado 0.';
+    echo 'No hay pagos pendientes';
 }
 
 // Cierra la conexión a la base de datos

@@ -13,6 +13,7 @@ if (!isset($_SESSION['usuario'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesas</title>
     <link rel="stylesheet" href="../assets/css/menú.css">
+    <link rel="stylesheet" href="../assets/css/titulo.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -45,7 +46,7 @@ if (!isset($_SESSION['usuario'])) {
                             <a class="nav-link" href="../vistaMozo/ventas.php">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="model/logout.php">Cerrar Sesión</a>
+                        <a class="nav-link" href="../model/logout.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -62,6 +63,13 @@ if (!isset($_SESSION['usuario'])) {
         </figcaption>";
         ?>
     </div>
+
+
+    <br>
+    <div class="titulo-container">
+        <h2>ACTUALIZAR MESAS</h2>
+    </div>
+    <br>
 
     <div class="container">
         <div id="mesas-container" class="row row-cols-1 row-cols-md-2 g-4">
