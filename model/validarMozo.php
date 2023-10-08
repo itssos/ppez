@@ -25,7 +25,7 @@ if ($stmt = $conexion->prepare($sql)) {
         $_SESSION['idMozo'] = $idMozo;
 
         // Redirigir al usuario a index.php o la página deseada
-        header("Location: ../index.php");
+        header('Location: ../vistaMozo/menu.php'); // Redirige al index.php u otra página deseada
         exit; // Terminar el script
     } else {
         // El usuario y/o la contraseña son incorrectos

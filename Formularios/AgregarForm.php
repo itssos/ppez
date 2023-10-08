@@ -43,7 +43,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-danger">ENVIAR</button>
-                <a href="../view/index.php" class="btn btn-dark">Volver</a>
+                <a href="../vistaAdmin/index.php" class="btn btn-dark">Volver</a>
             </div>
         </form>
     </div>

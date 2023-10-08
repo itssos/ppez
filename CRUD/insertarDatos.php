@@ -12,7 +12,7 @@ $sql = "INSERT INTO plato(idplato,nombre,descripción,precio,imagen,menú_idmen�
         VALUES (null,'$nombre', '$descripcion', '$precio', '$foto', '$menú')";
 
 if ($resultado = mysqli_query($conexion, $sql)) {
-    header("location: ../view/index.php");
+    header("location: ../vistaAdmin/index.php");
 } else {
     echo "Error en la consulta SQL: ".mysqli_error($conexion);
 }

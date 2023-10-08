@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario ya está autenticado
 if (isset($_SESSION['usuario'])) {
-    header('Location: vistaMozo/menu.php'); // Redirige al index.php u otra página deseada
+    header('Location: vistaAdmin/index.php'); // Redirige al index.php u otra página deseada
     exit;
 }
 
@@ -37,7 +37,7 @@ if ($error === "1") {
                 <img src="assets/img/logo.png" alt="alt" />
             </div>
             <div class="container-login__title">
-                <h2>Iniciar sesión </h2>
+                <h2>Bienvenido Admin!</h2>
             </div>
             <?php if (!empty($errorMessage)) : ?>
                 <div class="alert alert-danger" role="alert">
@@ -45,7 +45,7 @@ if ($error === "1") {
                 </div>
             <?php endif; ?>
             <div>
-                <form action="model/validarMozo.php" method="POST" id="loginForm">
+                <form action="model/validarAdmin.php" method="POST" id="loginForm">
                     <div>
                         <label for="usuario">Usuario</label>
                         <input type="text" id="usuario" name="usuario" placeholder="Mozo">

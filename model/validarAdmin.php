@@ -21,16 +21,16 @@ if ($stmt = $conexion->prepare($sql)) {
 
         // Obtener el ID del mozo y almacenarlo en una variable de sesión
         $fila = $result->fetch_assoc();
-        $idMozo = $fila['id_mozos'];
-        $_SESSION['idMozo'] = $idMozo;
+        $idAdmin = $fila['id_admin'];
+        $_SESSION['id_admin'] = $idAdmin;
 
         // Redirigir al usuario a index.php o la página deseada
-        header("Location: ../index.php");
+        header("Location: ../vistaAdmin/index.php");
         exit; // Terminar el script
     } else {
         // El usuario y/o la contraseña son incorrectos
         // Redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
-        header("Location: ../login.php?error=1");
+        header("Location: ../loginAdmin.php?error=1");
         exit; // Terminar el script
     }
 

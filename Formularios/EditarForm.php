@@ -59,7 +59,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-danger">EDITAR</button>
-                <a href="../view/index.php" class="btn btn-dark">VOLVER</a>
+                <a href="../vistaAdmin/index.php" class="btn btn-dark">VOLVER</a>
             </div>
         </form>
     </div>
