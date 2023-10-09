@@ -1,5 +1,5 @@
 <?php 
-include_once("../Config/conexion.php");
+include("conexion.php");
 $Id=$_POST['ID'];
 $Menú=$_POST['Menú'];
 $Nombre=$_POST['Nombre'];

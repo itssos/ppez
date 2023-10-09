@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario ya está autenticado
 if (isset($_SESSION['usuario'])) {
-    header('Location: vistaMozo/menu.php'); // Redirige al index.php u otra página deseada
+    header('Location: index.php'); // Redirige al index.php u otra página deseada
     exit;
 }
 
@@ -45,7 +45,7 @@ if ($error === "1") {
                 </div>
             <?php endif; ?>
             <div>
-                <form action="model/validarMozo.php" method="POST" id="loginForm">
+                <form action="Modelo/validarMozo.php" method="POST" id="loginForm">
                     <div>
                         <label for="usuario">Usuario</label>
                         <input type="text" id="usuario" name="usuario" placeholder="Mozo">

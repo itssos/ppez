@@ -12,9 +12,9 @@
     <h1 class="bg-black p-2 text-white text-center">Agregar Plato</h1>
     <div class="container">
         <br>
-        <form action="../CRUD/editarDatos.php" method="post">
+        <form action="../Modelo/editarDatos.php" method="post">
             <?php
-            include("../Config/conexion.php");
+            include("../Modelo/conexion.php");
             $sql = "SELECT *FROM plato WHERE idplato=" . $_GET['Id'];
             $resultado = $conexion->query($sql);
             $row = $resultado->fetch_assoc();
@@ -27,7 +27,7 @@
             <select class="form-select" aria-label="Default select example" name="Menú">
                 <option selected disabled>Seleccione</option>
                 <?php
-                include("../Config/conexion.php");
+                include("../Modelo/conexion.php");
                 $sql1 = "SELECT *FROM menú WHERE idmenú=" . $row['menú_idmenú'];
                 $resultado1 = $conexion->query($sql1);
                 $row1 = $resultado1->fetch_assoc();

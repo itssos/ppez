@@ -12,14 +12,14 @@
     <h1 class="bg-black p-2 text-white text-center">Agregar Plato</h1>
     <br>
     <div class="container">
-        <form action="../CRUD/insertarDatos.php" method="post" id="platoForm">
+        <form action="../Modelo/insertarDatos.php" method="post" id="platoForm">
 
             <div class="mb-3">
                 <label for="">Tipo de Menú</label>
                 <select class="form-select mb-3" name="Menú" required>
                     <option selected disabled value="">Elije el tipo</option>
                     <?php
-                    include("../Config/conexion.php");
+                    include("../Modelo/conexion.php");
                     $sql = $conexion->query("SELECT * FROM menú");
                     while ($resultado = $sql->fetch_assoc()) {
                         echo "<option value='" . $resultado['idmenú'] . "'>" . $resultado['nombreMenú'] . "</option>";

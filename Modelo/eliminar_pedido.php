@@ -2,7 +2,7 @@
 if (isset($_POST['pedidoId'])) {
     $pedidoId = $_POST['pedidoId'];
 
-    include('../Config/conexion.php');
+    include("conexion.php");
 
     $sql = "DELETE FROM pedidos WHERE idpedidos = $pedidoId";
 

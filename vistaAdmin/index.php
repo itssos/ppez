@@ -1,9 +1,9 @@
 <?php
-require("../Config/conexion.php");
+require("../Modelo/conexion.php");
 
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ../loginAdmin.php');
+    header('Location: loginAdmin.php');
     exit;
 }
 
@@ -62,7 +62,7 @@ $idMozo = isset($_SESSION['id_admin']) ? $_SESSION['id_admin'] : 'ID no encontra
                             <a class="nav-link" href="Mozos.php">Mozos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../model/logoutAdmin.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="../Modelo/logoutAdmin.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -83,7 +83,7 @@ $idMozo = isset($_SESSION['id_admin']) ? $_SESSION['id_admin'] : 'ID no encontra
     <h1 class="text-center" style="background-color: blue; color: white;">LISTADO DE PLATOS</h1>
     <br>
     <div class="container">
-        <a href="../Formularios/AgregarForm.php" class="btn btn-success">Agregar Plato</a>
+        <a href="../Controlador/AgregarForm.php" class="btn btn-success">Agregar Plato</a>
     </div>
     <br>
     <div class="container">
@@ -113,8 +113,8 @@ $idMozo = isset($_SESSION['id_admin']) ? $_SESSION['id_admin'] : 'ID no encontra
                             <img src="<?php echo $resultado['imagen']; ?>" alt="Imagen del Plato" style="max-height: 100px;">
                         </td>
                         <td class="text-center align-middle">
-                            <a href="../Formularios/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
-                            <a href="../CRUD/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
+                            <a href="../Controlador/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
+                            <a href="../Modelo/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
                         </td>
                     </tr>
                 <?php
@@ -126,7 +126,7 @@ $idMozo = isset($_SESSION['id_admin']) ? $_SESSION['id_admin'] : 'ID no encontra
     <br>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="../vistaMozo/menu.php" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Caracteristicas</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nosotros</a></li>

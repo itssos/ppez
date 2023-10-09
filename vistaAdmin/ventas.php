@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ../loginAdmin.php');
+    header('Location: loginAdmin.php');
     exit;
 }
 ?>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['usuario'])) {
                             <a class="nav-link" href="Mozos.php">Mozos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../model/logoutAdmin.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="../Modelo/logoutAdmin.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@ if (!isset($_SESSION['usuario'])) {
     <br>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="../vistaMozo/menu.php" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Caracteristicas</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nosotros</a></li>
@@ -83,7 +83,7 @@ if (!isset($_SESSION['usuario'])) {
         // Función para cargar y actualizar la tabla de ventas
         function cargarTablaVentas() {
             $.ajax({
-                url: '../CRUD/obtener_ventas_admin.php', // Reemplaza con la URL correcta para obtener los datos de ventas
+                url: '../Modelo/obtener_ventas_admin.php', // Reemplaza con la URL correcta para obtener los datos de ventas
                 method: 'GET',
                 dataType: 'html',
                 success: function(data) {

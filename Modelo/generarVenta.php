@@ -5,7 +5,7 @@ if (isset($_POST['pedidoId']) && isset($_POST['montoTotal'])) {
     $pedidoId = $_POST['pedidoId'];
     $montoTotal = $_POST['montoTotal'];
 
-    include("../Config/conexion.php");
+    include("conexion.php");
     
     // Utilizar una sentencia preparada
     $insertarVenta = "INSERT INTO ventas (pedidos_idpedidos, monto_total) VALUES (?, ?)";

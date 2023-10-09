@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -21,7 +21,7 @@ if (!isset($_SESSION['usuario'])) {
     <script type="text/javascript">
         function tiempoReal() {
             var tabla = $.ajax({
-                url: '../CRUD/tablaDetalle.php',
+                url: 'Modelo/tablaDetalle.php',
                 dataType: 'text',
                 async: false
             }).responseText;
@@ -34,7 +34,7 @@ if (!isset($_SESSION['usuario'])) {
 
                     $.ajax({
                         type: "POST",
-                        url: '../CRUD/eliminar_detalle_pedido.php',
+                        url: 'Modelo/eliminar_detalle_pedido.php',
                         data: {
                             id_detalle: idDetalle
                         },
@@ -113,16 +113,16 @@ if (!isset($_SESSION['usuario'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../vistaMozo/menu.php">Pedidos</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Pedidos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/mesas.php">Mesas</a>
+                            <a class="nav-link" href="mesas.php">Mesas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/ventas.php">Ventas</a>
+                            <a class="nav-link" href="ventas.php">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../model/logout.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="Modelo/logout.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -153,7 +153,7 @@ if (!isset($_SESSION['usuario'])) {
         <select id="mesas">
             <option value="0" selected disabled>-- Seleccionar --</option>
             <?php
-            include('../Config/conexion.php');
+            include('Modelo/conexion.php');
             $sql = "SELECT idmesa, nombre FROM mesa WHERE estado = 0";
             $result = mysqli_query($conexion, $sql);
             while ($fila = mysqli_fetch_assoc($result)) {
@@ -199,8 +199,8 @@ if (!isset($_SESSION['usuario'])) {
                         </thead>
                         <tbody>
                             <?php
-                            require("../Config/conexion.php");
-                            $sql = $conexion->query("SELECT * FROM plato");
+            include('Modelo/conexion.php');
+            $sql = $conexion->query("SELECT * FROM plato");
                             while ($resultado = $sql->fetch_assoc()) {
                             ?>
                                 <tr>
@@ -262,7 +262,7 @@ if (!isset($_SESSION['usuario'])) {
                 const mesaId = selectedOption.value;
 
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", "../CRUD/agregar_pedido.php", true);
+                xhr.open("POST", "Modelo/agregar_pedido.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
@@ -314,7 +314,7 @@ if (!isset($_SESSION['usuario'])) {
                 if (pedidosCreados.length > 0) {
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
                     const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "../CRUD/generarVenta.php", true);
+                    xhr.open("POST", "Modelo/generarVenta.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -363,7 +363,7 @@ if (!isset($_SESSION['usuario'])) {
                 if (pedidosCreados.length > 0) {
                     const ultimoPedidoId = pedidosCreados.pop();
                     const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "../CRUD/eliminar_pedido.php", true);
+                    xhr.open("POST", "Modelo/eliminar_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -422,7 +422,7 @@ if (!isset($_SESSION['usuario'])) {
                     }
                     const ultimoPedidoId = pedidosCreados[pedidosCreados.length - 1];
                     const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "../CRUD/agregar_detalle_pedido.php", true);
+                    xhr.open("POST", "Modelo/agregar_detalle_pedido.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4) {

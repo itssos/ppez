@@ -1,6 +1,6 @@
 <?php
 // Conexión a la base de datos y consulta SQL
-include("../Config/conexion.php");
+include("conexion.php");
 
 // Obtener el monto total del día
 $sqlTotalDia = "SELECT SUM(monto_total) FROM ventas WHERE DATE(fecha) = CURDATE() AND estado = 1";

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -31,16 +31,16 @@ if (!isset($_SESSION['usuario'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../vistaMozo/menu.php">Pedidos</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Pedidos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/mesas.php">Mesas</a>
+                            <a class="nav-link" href="mesas.php">Mesas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/ventas.php">Ventas</a>
+                            <a class="nav-link" href="ventas.php">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../model/logout.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="Modelo/logout.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -72,7 +72,7 @@ if (!isset($_SESSION['usuario'])) {
 
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="../vistaMozo/menu.php" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Caracteristicas</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nosotros</a></li>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['usuario'])) {
         // Función para cargar y actualizar la tabla de ventas
         function cargarTablaVentas() {
             $.ajax({
-                url: '../CRUD/obtener_ventas.php', // Reemplaza con la URL correcta para obtener los datos de ventas
+                url: 'Modelo/obtener_ventas.php', // Reemplaza con la URL correcta para obtener los datos de ventas
                 method: 'GET',
                 dataType: 'html',
                 success: function(data) {
@@ -118,7 +118,7 @@ if (!isset($_SESSION['usuario'])) {
 
             // Realiza la solicitud Ajax para actualizar el estado
             $.ajax({
-                url: '../CRUD/actualizar_estado_venta.php', // Ruta de tu script PHP para actualizar el estado
+                url: 'Modelo/actualizar_estado_venta.php', // Ruta de tu script PHP para actualizar el estado
                 method: 'POST',
                 data: {
                     ventaID: ventaID

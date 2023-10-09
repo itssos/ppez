@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
-include("../Config/conexion.php");
+include("conexion.php");
 
 // Obtener el usuario y la contraseña ingresados en el formulario (por ejemplo, a través de $_POST)
 $usuario = $_POST['usuario'];
@@ -25,7 +25,7 @@ if ($stmt = $conexion->prepare($sql)) {
         $_SESSION['idMozo'] = $idMozo;
 
         // Redirigir al usuario a index.php o la página deseada
-        header('Location: ../vistaMozo/menu.php'); // Redirige al index.php u otra página deseada
+        header('Location: ../index.php'); // Redirige al index.php u otra página deseada
         exit; // Terminar el script
     } else {
         // El usuario y/o la contraseña son incorrectos

@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario ya está autenticado
 if (isset($_SESSION['usuario'])) {
-    header('Location: vistaAdmin/interfazAdmin.php'); // Redirige al index.php u otra página deseada
+    header('Location: interfazAdmin.php'); // Redirige al index.php u otra página deseada
     exit;
 }
 
@@ -26,7 +26,7 @@ if ($error === "1") {
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="assets/css/login.css" />
+    <link rel="stylesheet" href="../assets/css/login.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
@@ -34,7 +34,7 @@ if ($error === "1") {
     <div class="container">
         <div class="container-login">
             <div class="container-login__background">
-                <img src="assets/img/logo.png" alt="alt" />
+                <img src="../assets/img/logo.png" alt="alt" />
             </div>
             <div class="container-login__title">
                 <h2>Bienvenido Admin!</h2>
@@ -45,7 +45,7 @@ if ($error === "1") {
                 </div>
             <?php endif; ?>
             <div>
-                <form action="model/validarAdmin.php" method="POST" id="loginForm">
+                <form action="../Modelo/validarAdmin.php" method="POST" id="loginForm">
                     <div>
                         <label for="usuario">Usuario</label>
                         <input type="text" id="usuario" name="usuario" placeholder="Mozo">
@@ -133,7 +133,7 @@ if ($error === "1") {
         </div>
     </div>
 
-    <script src="assets/js/panelBotones.js"></script>
+    <script src="../assets/js/panelBotones.js"></script>
 </body>
 
 </html>

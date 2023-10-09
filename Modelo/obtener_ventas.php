@@ -1,6 +1,6 @@
 <?php
 // Conexión a la base de datos y consulta SQL
-include("../Config/conexion.php");
+include("conexion.php");
 $sql = "SELECT * FROM ventas WHERE DATE(fecha) = CURDATE() AND estado = 0";
 $result = $conexion->query($sql);
 

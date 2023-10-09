@@ -1,5 +1,5 @@
 <?php
-include("../Config/conexion.php");
+include("conexion.php");
 $sql = "SELECT idmesa, nombre, capacidad, estado FROM mesa";
 $result = $conexion->query($sql);
 if ($result->num_rows > 0) {

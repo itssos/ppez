@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_SESSION['pedidoIdCreado'])) {
     $pedidoId = $_SESSION['pedidoIdCreado'];
-    include("../Config/conexion.php");
+    include("conexion.php");
     $tabla = $conexion->query("SELECT dp.*, p.nombre AS nombre_plato, p.precio AS precio_plato 
     FROM detalle_pedido AS dp
     INNER JOIN plato AS p ON dp.plato_idplato = p.idplato

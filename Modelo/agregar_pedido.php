@@ -2,7 +2,7 @@
 if (isset($_POST['idMozo']) && isset($_POST['idMesa'])) {
     $idMozo = $_POST['idMozo'];
     $idMesa = $_POST['idMesa'];
-    include('../Config/conexion.php');
+    include("conexion.php");
     $sql = "INSERT INTO pedidos (mozos_id_mozos, fecha, mesa_idmesa, estado) VALUES ($idMozo, NOW(), $idMesa, 0)";
     if (mysqli_query($conexion, $sql)) {
         $nuevoPedidoId = mysqli_insert_id($conexion); // Obtener el ID del pedido insertado

@@ -1,5 +1,5 @@
 <?php
-include('../Config/conexion.php');
+include("conexion.php");
 
 if (isset($_REQUEST['id_detalle'])) {
     $id_pedido = $_REQUEST['id_detalle'];

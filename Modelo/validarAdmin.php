@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
-include("../Config/conexion.php");
+include("conexion.php");
 
 // Obtener el usuario y la contraseña ingresados en el formulario (por ejemplo, a través de $_POST)
 $usuario = $_POST['usuario'];
@@ -30,7 +30,7 @@ if ($stmt = $conexion->prepare($sql)) {
     } else {
         // El usuario y/o la contraseña son incorrectos
         // Redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
-        header("Location: ../loginAdmin.php?error=1");
+        header("Location: ../vistaAdmin/loginAdmin.php?error=1");
         exit; // Terminar el script
     }
 

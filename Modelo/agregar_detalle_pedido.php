@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cantidad = $_POST["cantidad"]; // Obtener cantidad correctamente
     $pedidoId = $_POST["pedidoId"]; // Obtener pedidoId correctamente
 
-    include('../Config/conexion.php');
+    include("conexion.php");
 
     // Verificar si el pedidoId es válido
     $verificarPedido = "SELECT idpedidos FROM pedidos WHERE idpedidos = ?";

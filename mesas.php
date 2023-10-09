@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -37,16 +37,16 @@ if (!isset($_SESSION['usuario'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../vistaMozo/menu.php">Pedidos</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Pedidos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/mesas.php">Mesas</a>
+                            <a class="nav-link" href="mesas.php">Mesas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../vistaMozo/ventas.php">Ventas</a>
+                            <a class="nav-link" href="ventas.php">Ventas</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="../model/logout.php">Cerrar Sesión</a>
+                            <a class="nav-link" href="Modelo/logout.php">Cerrar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['usuario'])) {
     <script>
         function cargarMesas() {
             $.ajax({
-                url: '../CRUD/obtener_mesas.php',
+                url: 'Modelo/obtener_mesas.php',
                 method: 'GET',
                 dataType: 'html',
                 success: function(data) {
@@ -105,7 +105,7 @@ if (!isset($_SESSION['usuario'])) {
 
         function actualizarMesa(mesaID) {
             $.ajax({
-                url: '../CRUD/cambiar_estado_mesa.php', // Reemplaza 'ruta_a_actualizar_mesa.php' con la URL correcta
+                url: 'Modelo/cambiar_estado_mesa.php', // Reemplaza 'ruta_a_actualizar_mesa.php' con la URL correcta
                 method: 'POST',
                 data: {
                     mesaID: mesaID
@@ -135,7 +135,7 @@ if (!isset($_SESSION['usuario'])) {
     <br>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="../vistaMozo/menu.php" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Caracteristicas</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nosotros</a></li>
