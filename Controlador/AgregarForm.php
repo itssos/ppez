@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location: loginAdmin.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +58,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-danger">ENVIAR</button>
-                <a href="../vistaAdmin/index.php" class="btn btn-dark">Volver</a>
+                <a href="../Administracion/index.php" class="btn btn-dark">Volver</a>
             </div>
         </form>
     </div>

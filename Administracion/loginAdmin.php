@@ -48,7 +48,7 @@ if ($error === "1") {
                 <form action="../Modelo/validarAdmin.php" method="POST" id="loginForm">
                     <div>
                         <label for="usuario">Usuario</label>
-                        <input type="text" id="usuario" name="usuario" placeholder="Mozo">
+                        <input type="text" id="usuario" name="usuario" placeholder="Administrador">
                         <input type="text" id="pin" name="pin" style="display: none;">
                     </div>
                     <div class="mb-3">

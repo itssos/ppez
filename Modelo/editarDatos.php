@@ -15,5 +15,5 @@ imagen='".$Foto."',
 menú_idmenú='".$Menú."'
 WHERE idplato=".$Id."";
 if ($resultado = mysqli_query($conexion, $sql)) {
-    header("location: ../vistaAdmin/index.php");
+    header("location: ../Administracion/index.php");
 }
