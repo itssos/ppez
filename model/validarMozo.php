@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
-include("conexionBD.php");
+include("../Config/conexion.php");
 
 // Obtener el usuario y la contraseña ingresados en el formulario (por ejemplo, a través de $_POST)
 $usuario = $_POST['usuario'];
