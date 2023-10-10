@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
     echo '<th>Fecha</th>';
     echo '<th>Total</th>';
     echo '<th>Acción</th>'; // Cambio de "Estado" a "Acción"
+    echo '<th>Acción</th>'; // detalle
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
@@ -25,7 +26,8 @@ if ($result->num_rows > 0) {
         echo '<td>' . $row['pedidos_idpedidos'] . '</td>';
         echo '<td>' . $row['fecha'] . '</td>';
         echo '<td>s/' . $row['monto_total'] . '</td>';
-        echo '<td><button class="btn-actualizar" data-venta-id="' . $row['id_ventas'] . '">PAGAR</button></td>'; // Botón para actualizar
+        echo '<td><button class="btn-actualizar" data-venta-id="' . $row['id_ventas'] . '" style="background-color: lightgreen; color: black; font-weight: bold;">PAGAR</button></td>';
+        echo '<td><a class="btn-detalle" href="detalle_venta.php?id=' . $row['id_ventas'] . '"><button class="btn" style="background-color: yellow; color: black; font-weight: bold;">Detalle</button></a></td>';
         echo '</tr>';
     }
 

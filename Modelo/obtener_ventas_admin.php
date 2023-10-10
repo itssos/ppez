@@ -50,7 +50,7 @@ echo '</div>';
 
 
 // Obtener los datos de las ventas y ordenar por fecha descendente
-$sqlVentas = "SELECT fecha, monto_total, estado FROM ventas ORDER BY fecha DESC";
+$sqlVentas = "SELECT * FROM ventas ORDER BY fecha DESC";
 $resultVentas = $conexion->query($sqlVentas);
 
 
@@ -58,9 +58,11 @@ $resultVentas = $conexion->query($sqlVentas);
 echo '<table id="ventasTable" class="table table-striped" style="width:100%">';
 echo '<thead>';
 echo '<tr>';
+echo '<th>ID</th>';
 echo '<th>Fecha</th>';
 echo '<th>Monto Total</th>';
 echo '<th>Estado</th>';
+echo '<th>Accion</th>';
 echo '</tr>';
 echo '</thead>';
 echo '<tbody>';
@@ -69,9 +71,11 @@ echo '<tbody>';
 while ($rowVenta = $resultVentas->fetch_assoc()) {
     $estado = ($rowVenta['estado'] == 1) ? 'Pagado' : 'Pendiente';
     echo '<tr>';
+    echo '<td>' . $rowVenta['id_ventas'] . '</td>';
     echo '<td>' . $rowVenta['fecha'] . '</td>';
     echo '<td> s/' . $rowVenta['monto_total'] . '</td>';
     echo '<td>' . $estado . '</td>';
+    echo '<td><a class="btn-detalle" href="detalle_venta_admin.php?id=' . $rowVenta['id_ventas'] . '"><button class="btn" style="background-color: yellow; color: black; font-weight: bold;">Detalle</button></a></td>';
     echo '</tr>';
 }
 

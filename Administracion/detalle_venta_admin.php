@@ -4,30 +4,7 @@ if (!isset($_SESSION['usuario'])) {
     header('Location: loginAdmin.php');
     exit;
 }
-
-if (isset($_GET['id'])) {
-    $mozoId = $_GET['id'];
-
-    // Conexión a la base de datos
-    include("../Modelo/conexion.php");
-
-    // Realiza una consulta SQL para obtener los detalles del mozo con el ID dado
-    $sqlDetalleMozo = "SELECT * FROM mozos WHERE id_mozos = ?";
-    $stmtDetalleMozo = $conexion->prepare($sqlDetalleMozo);
-    $stmtDetalleMozo->bind_param("i", $mozoId);
-    $stmtDetalleMozo->execute();
-    $resultDetalleMozo = $stmtDetalleMozo->get_result();
-    $rowDetalleMozo = $resultDetalleMozo->fetch_assoc();
-
-    // Cierra la conexión a la base de datos
-    $stmtDetalleMozo->close();
-    $conexion->close();
-} else {
-    header('Location: Mozos.php');
-    echo "ID del mozo no proporcionado.";
-}
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -82,21 +59,62 @@ if (isset($_GET['id'])) {
         ?>
     </div>
     <br>
+
+    <?php
+    if (isset($_GET['id'])) {
+        $idVenta = $_GET['id'];
+        include("../Modelo/conexion.php");
+        $sql = "SELECT pl.nombre AS nombre_plato, dp.cantidad, pl.precio, (dp.cantidad * pl.precio) AS monto
+    FROM ventas AS v
+    JOIN pedidos AS p ON v.pedidos_idpedidos = p.idpedidos
+    JOIN detalle_pedido AS dp ON p.idpedidos = dp.pedidos_idpedidos
+    JOIN plato AS pl ON dp.plato_idplato = pl.idplato
+    WHERE v.id_ventas = $idVenta";
+
+        // Ejecuta la consulta SQL
+        $result = $conexion->query($sql);
+
+        // Verifica si hay resultados
+        if ($result->num_rows > 0) {
+            echo '<table id="ventasTable" class="table table-striped" style="width:100%">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th>Nombre del Plato</th>';
+            echo '<th>Cantidad</th>';
+            echo '<th>Precio</th>';
+            echo '<th>Monto</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+
+            // Itera sobre los resultados de la consulta y muestra los detalles de la venta
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . $row['nombre_plato'] . '</td>';
+                echo '<td>' . $row['cantidad'] . '</td>';
+                echo '<td>' . $row['precio'] . '</td>';
+                echo '<td>' . $row['monto'] . '</td>';
+                echo '</tr>';
+            }
+
+            echo '</tbody>';
+            echo '</table>';
+        } else {
+            echo 'No se encontraron detalles de la venta';
+        }
+
+        // Cierra la conexión a la base de datos
+        $conexion->close();
+    } else {
+        // Si no se proporciona un ID de venta válido, muestra un mensaje de error o redirige a una página de error.
+        echo 'Venta no encontrada';
+    }
+    ?>
+
+
     <div style="text-align: center;">
-        <h1>Detalles del Mozo</h1>
-        <p><strong>ID:</strong> <?php echo $rowDetalleMozo['id_mozos']; ?></p>
-        <p><strong>Nombre:</strong> <?php echo $rowDetalleMozo['nombre']; ?></p>
-        <p><strong>Apellido Paterno:</strong> <?php echo $rowDetalleMozo['paterno']; ?></p>
-        <p><strong>Apellido Materno:</strong> <?php echo $rowDetalleMozo['materno']; ?></p>
-        <p><strong>Usuario:</strong> <?php echo $rowDetalleMozo['usuario']; ?></p>
-        <p><strong>Contraseña:</strong> <?php echo $rowDetalleMozo['contraseña']; ?></p>
-        <p><strong>DNI:</strong> <?php echo $rowDetalleMozo['dni']; ?></p>
-        <p><strong>Teléfono:</strong> <?php echo $rowDetalleMozo['telefono']; ?></p>
-        <p><strong>Correo:</strong> <?php echo $rowDetalleMozo['correo']; ?></p>
-        <br>
-        <button class="btn btn-primary" onclick="window.location.href='Mozos.php'">Volver a la lista de mozos</button>
+        <a href="ventas.php" class="btn btn-primary">Volver a la lista de ventas</a>
     </div>
-    <br>
 
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">

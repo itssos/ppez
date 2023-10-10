@@ -253,26 +253,13 @@ unset($_SESSION['success_message']);
         }
     </script>
     <script>
+        // Función para manejar el clic en el botón "Detalle"
         $(document).on('click', '.detalle-mozo', function() {
             const mozoId = $(this).data('id');
 
-            // Realiza una solicitud AJAX para obtener los detalles del mozo
-            $.ajax({
-                url: 'detalle_mozo.php?id=' + mozoId,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Muestra los detalles en un modal o cualquier otro elemento de tu elección
-                    // Por ejemplo, puedes mostrarlos en un modal Bootstrap
-                    $('#modalDetalles .modal-body').html(data.detalle_html);
-                    $('#modalDetalles').modal('show');
-                },
-                error: function() {
-                    console.log('Error al obtener los detalles del mozo.');
-                }
-            });
+            // Redirige al usuario a la página detalle_mozo.php con el ID del mozo como parámetro
+            window.location.href = 'detalle_mozo.php?id=' + mozoId;
         });
-        window.location.href = 'detalle_mozo.php?id=' + mozoId;
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
