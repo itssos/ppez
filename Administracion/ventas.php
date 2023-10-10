@@ -59,7 +59,7 @@ if (!isset($_SESSION['usuario'])) {
         ?>
     </div>
 
-    <div id="tablaVentas">
+    <div id="tablaVentas" class="table-responsive">
         <!-- Aquí se mostrará la tabla -->
     </div>
     <br>

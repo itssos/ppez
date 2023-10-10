@@ -87,41 +87,43 @@ $idMozo = isset($_SESSION['id_admin']) ? $_SESSION['id_admin'] : 'ID no encontra
     </div>
     <br>
     <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Menu</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Imagen</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                while ($resultado = $sql->fetch_assoc()) {
-                ?>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th scope="row"><?php echo $resultado['idplato'] ?></th>
-                        <td><?php echo $resultado['nombre'] ?></td>
-                        <td><?php echo $resultado['nombreMenú'] ?></td>
-                        <td><?php echo $resultado['precio'] ?></td>
-                        <td><?php echo $resultado['descripción'] ?></td>
-                        <td>
-                            <img src="<?php echo $resultado['imagen']; ?>" alt="Imagen del Plato" style="max-height: 100px;">
-                        </td>
-                        <td class="text-center align-middle">
-                            <a href="../Controlador/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
-                            <a href="../Modelo/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Menu</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Acciones</th>
                     </tr>
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php
+                    while ($resultado = $sql->fetch_assoc()) {
+                    ?>
+                        <tr>
+                            <th scope="row"><?php echo $resultado['idplato'] ?></th>
+                            <td><?php echo $resultado['nombre'] ?></td>
+                            <td><?php echo $resultado['nombreMenú'] ?></td>
+                            <td><?php echo $resultado['precio'] ?></td>
+                            <td><?php echo $resultado['descripción'] ?></td>
+                            <td>
+                                <img src="<?php echo $resultado['imagen']; ?>" alt="Imagen del Plato" style="max-height: 100px;">
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="../Controlador/EditarForm.php?Id=<?php echo $resultado['idplato'] ?>" class="btn btn-warning">EDITAR</a>
+                                <a href="../Modelo/eliminarDatos.php?IdEliminar=<?php echo $resultado['idplato'] ?>" class="btn btn-danger">ELIMINAR</a>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <br>
     <footer class="py-3 my-4">

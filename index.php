@@ -93,14 +93,46 @@ if (!isset($_SESSION['usuario'])) {
         setInterval(tiempoReal, 500);
     </script>
     <style>
+        .contenido{
+            margin: 10px;
+        }
+        .titulo-container{
+            margin-left: 10px;
+        }
         #miTabla {
             display: none;
+        }
+        #agregarPedido {
+            background-color: #94FF8F;
+            border-radius: 10px;
+            border: 1px solid #63DF5D;
+            width: 150px;
+            height: 40px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #363935;
+            box-shadow: 2px 2px 5px 0 #000;
+        }
+        #cancelarPedido {
+            background-color: #FB9C9C;
+            border-radius: 10px;
+            border: 1px solid #63DF5D;
+            height: 40px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #363935;
+            box-shadow: 2px 2px 5px 0 #000;
+        }
+        #mesas{
+            border-radius: 10px;
+            width: 150px;
+            text-align: center;
+            height: 30px;
+            border: 1px solid #000;
         }
     </style>
 
 </head>
-
-
 
 <body>
     <div class="container_MOZO">
@@ -147,7 +179,7 @@ if (!isset($_SESSION['usuario'])) {
     <br>
 
 
-    <div>
+    <div class="contenido">
         <!-- Agrega el select de mesas -->
         <label for="mesas" style="font-size: 20px;">Selecciona una mesa:</label>
         <select id="mesas">

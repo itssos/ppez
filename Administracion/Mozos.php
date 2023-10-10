@@ -114,7 +114,7 @@ unset($_SESSION['success_message']);
     </div>
 
     <br>
-    <div id="tablaVentas">
+    <div id="tablaVentas" class="table-responsive">
         <!-- Aquí se mostrará la tabla -->
     </div>
 
