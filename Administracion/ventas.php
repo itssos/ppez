@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Ventas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -97,13 +97,8 @@ if (!isset($_SESSION['usuario'])) {
                 }
             });
         }
-
         // Carga la tabla inicialmente al cargar la página
         cargarTablaVentas();
-        // Actualiza la tabla cada 5 segundos (puedes ajustar el intervalo según tus necesidades)
-        setInterval(function() {
-            cargarTablaVentas();
-        }, 2000); // 5000 milisegundos = 5 segundos
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

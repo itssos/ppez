@@ -49,9 +49,10 @@ echo 'Total de ventas este mes: ' . $ventasMes . '<br>';
 echo '</div>';
 
 
-// Obtener los datos de las ventas
-$sqlVentas = "SELECT fecha, monto_total, estado FROM ventas";
+// Obtener los datos de las ventas y ordenar por fecha descendente
+$sqlVentas = "SELECT fecha, monto_total, estado FROM ventas ORDER BY fecha DESC";
 $resultVentas = $conexion->query($sqlVentas);
+
 
 // Iniciar la tabla HTML
 echo '<table id="ventasTable" class="table table-striped" style="width:100%">';
