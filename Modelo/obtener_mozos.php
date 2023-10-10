@@ -1,7 +1,7 @@
 <?php
 // Conexión a la base de datos y consulta SQL
 include("conexion.php");
-$sqlMozos = "SELECT nombre, dni, telefono, correo FROM mozos";
+$sqlMozos = "SELECT id_mozos, nombre, dni, telefono, correo FROM mozos";
 $resultMozos = $conexion->query($sqlMozos);
 
 // Iniciar la tabla HTML
@@ -12,6 +12,8 @@ echo '<th>Nombre</th>';
 echo '<th>DNI</th>';
 echo '<th>Teléfono</th>';
 echo '<th>Correo</th>';
+echo '<th>Accion</th>';
+echo '<th>Accion</th>';
 echo '</tr>';
 echo '</thead>';
 echo '<tbody>';
@@ -23,6 +25,8 @@ while ($rowMozo = $resultMozos->fetch_assoc()) {
     echo '<td>' . $rowMozo['dni'] . '</td>';
     echo '<td>' . $rowMozo['telefono'] . '</td>';
     echo '<td>' . $rowMozo['correo'] . '</td>';
+    echo "<td><button class='btn btn-danger eliminar-mozo' data-id='" . $rowMozo['id_mozos'] . "'>Eliminar</button></td>";
+    echo "<td><button class='btn btn-info detalle-mozo' data-id='" . $rowMozo['id_mozos'] . "'>Detalle</button></td>";
     echo '</tr>';
 }
 
